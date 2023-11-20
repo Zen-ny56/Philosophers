@@ -7,6 +7,7 @@
 # include <stdint.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <stdbool.h>
 
 
 typedef struct s_philo
@@ -16,8 +17,8 @@ typedef struct s_philo
 	size_t		time_eat;
 	int				id;
 	pthread_mutex_t	lock;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t *l_fork;
+	int				r_fork;
+	int 			l_fork;
 }
 		t_philo;
 
@@ -32,9 +33,10 @@ typedef struct s_data
 	int			meal_times;
 	int			time_eat;
 	int			time_death;
-	pthread_mutex_t waiter;
 	pthread_mutex_t *fork;
+	pthread_mutex_t waiter;
 	pthread_mutex_t write;
+	bool		*fork_taken;
 }
 			t_data;
 
@@ -46,5 +48,6 @@ void	init(char **argv, t_data *ap);
 void	alloc(t_data *ap);
 void	cleanup_data(t_data *ap);
 void	mutex_init(t_data *ap);
+void	thread_process(t_data *ap);
 
 #endif

@@ -13,6 +13,6 @@ int main(int ac, char **av)
 	init(av, &ap);
 	alloc(&ap);
 	mutex_init(&ap);
-	// pthread_create();
+	thread_process(&ap);
 	return (0);
 }

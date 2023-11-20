@@ -1,6 +1,6 @@
 NAME = philosophers
 
-SRCS = main.c parsing_utils.c init.c
+SRCS = main.c parsing_utils.c init.c thread_process.c utils.c
 
 OBJ = $(SRCS:.c=.o)
 
