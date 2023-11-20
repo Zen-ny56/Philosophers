@@ -21,23 +21,21 @@ void	alloc(t_data *ap)
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
 }
 
-void	cleanup_data(t_data *ap)
-{
-	free(ap->ti);
-	free(ap->fork);
-	free(ap->philos);
-}
-
 void	mutex_init(t_data *ap)
 {
 	int	i;
-	int	k;
 
-	i = ap->num_philo;
-	k = 0;
-	while (i > 0)
+	i = 0;
+	while (i < ap->num_philo)
 	{
 		pthread_mutex_init(&ap->fork[i], NULL);
-		i--;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].l_fork = &ap->fork[i];
+		ap->philos[i].r_fork = &ap->fork[(i + 1) % ap->num_philo];
+		i++;
 	}
 }
