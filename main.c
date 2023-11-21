@@ -2,7 +2,7 @@
 
 int main(int ac, char **av)
 {
-	t_data	ap;
+	t_data	*ap;
 
 	if (ac > 6 || ac < 5)
 	{
@@ -10,10 +10,11 @@ int main(int ac, char **av)
 		return (1);
 	}
 	parse(av);
-	ap.start = get_start_time(&ap);
-	init(av, &ap);
-	alloc(&ap);
-	mutex_init(&ap);
-	thread_process(&ap);
+	ap = (t_data *)malloc(sizeof(t_data) * 1);
+	ap->start = get_start_time(ap);
+	init(av, ap);
+	alloc(ap);
+	mutex_init(ap);
+	thread_process(ap);
 	return (0);
 }
