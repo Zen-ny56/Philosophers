@@ -19,7 +19,6 @@ void	alloc(t_data *ap)
 	ap->ti = (pthread_t *)malloc(sizeof(pthread_t) * ap->num_philo);
 	ap->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
-	ap->fork_taken = (bool *)malloc(sizeof(bool) * ap->num_philo);
 }
 
 void	mutex_init(t_data *ap)
@@ -31,20 +30,18 @@ void	mutex_init(t_data *ap)
 	{
 		pthread_mutex_init(&ap->fork[i], NULL);
 		i++;
-	}
+	} 
+	i = 0;
 	while (i < ap->num_philo)
 	{
-		ap->philos[i].id = i;
+		ap->philos[i].id = i + 1;
 		i++;
 	}
 	i = 0;
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].l_fork = &ap->fork[i];
-		ap->fork_taken[i] = false;
 		ap->philos[i].r_fork = &ap->fork[(i + 1) % ap->num_philo];
-		ap->fork_taken[(i + 1) % ap->num_philo] = false;
 		i++;
 	}
-	i = 0;
 }

@@ -19,12 +19,12 @@ typedef struct s_philo
 	pthread_mutex_t	lock;
 	int				r_fork;
 	int 			l_fork;
+	t_data			*info;
 }
 		t_philo;
 
 typedef struct s_data
 {
-	pthread_t	*ti;
 	size_t		eatin_ti;
 	size_t		sleepin_ti;
 	size_t		death_ti;
@@ -34,9 +34,8 @@ typedef struct s_data
 	int			time_eat;
 	int			time_death;
 	pthread_mutex_t *fork;
-	pthread_mutex_t waiter;
 	pthread_mutex_t write;
-	bool		*fork_taken;
+	struct 	timeval start;
 }
 			t_data;
 
@@ -49,5 +48,6 @@ void	alloc(t_data *ap);
 void	cleanup_data(t_data *ap);
 void	mutex_init(t_data *ap);
 void	thread_process(t_data *ap);
+void	print_event(int id, char *event);
 
 #endif

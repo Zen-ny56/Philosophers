@@ -7,42 +7,32 @@ void	thread_process(t_data *ap)
 	i = 0;
 	while (i < ap->num_philo)
 	{
-		pthread_create(&ap->philos[i], NULL, &routine, &ap->philos[i]);
+		pthread_create(&ap->philos[i].thread, NULL, &routine, &ap->philos[i]);
 		i++;
 	}
 }
 
-void	routine(t_data *ap)
+void	routine(void *arg)
 {
-	int i;
+	t_philo	*philo;
 
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		pthread_mutex_init(&ap->philos[i].lock , NULL);
-		i++;
-	}
-	pthread_mutex_init(&ap->waiter, NULL);
-	i = 0;
+	philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&ap->waiter);
-		if (ap->fork_taken[i] == false && ap->fork_taken[(i + 1) % ap->num_philo] == false)
-		{
-			pthread_mutex_lock(ap->philos[i].l_fork);
-			ap->fork_taken[i] = true;
-			pthread_mutex_lock(ap->philos[i].r_fork);
-			ap->fork_taken[(i + 1) % ap->num_philo] = true;
-		}
-		pthread_mutex_unlock(&ap->waiter);
-		eat(ap);
+		pthread_mutex_lock(philo->l_fork);
+		print_event(philo->id, "has taken left fork");
+		pthread_mutex_lock(philo->r_fork);
+		print_event(philo->id, "has taken right fork");
+		eat(philo);
 	}
 }
 
-void	eat(t_data *ap)
+void	eat(t_philo *philo)
 {
-	int i;
-
-	i = ap->philos->id;
-	pthread_mutex_lock(&ap->philos[i].lock);
+	while (philo)
+	{
+		print_event(philo, "is eating");
+		philo->time_eat++;
+		ap->time_death = ap->philos[i].time_eat + ap->death_ti;
+	}
 }
