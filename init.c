@@ -16,7 +16,7 @@ void	init(char **argv, t_data *ap)
 
 void	alloc(t_data *ap)
 {
-	ap->ti = (pthread_t *)malloc(sizeof(pthread_t) * ap->num_philo);
+	//ap->ti = (pthread_t *)malloc(sizeof(pthread_t) * ap->num_philo);
 	ap->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
 }

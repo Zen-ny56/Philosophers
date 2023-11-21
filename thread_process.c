@@ -32,7 +32,6 @@ void	eat(t_philo *philo)
 	while (philo)
 	{
 		print_event(philo, "is eating");
-		philo->time_eat++;
-		ap->time_death = ap->philos[i].time_eat + ap->death_ti;
+		
 	}
 }

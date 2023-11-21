@@ -35,12 +35,12 @@ typedef struct s_data
 	int			time_death;
 	pthread_mutex_t *fork;
 	pthread_mutex_t write;
-	struct 	timeval start;
+	size_t			start;
 }
 			t_data;
 
 int		ft_isdigit(int a);
-int		parse(char **av);
+void	parse(char **av);
 void	check_digit(char **av);
 int		ft_atoi(const char *str);
 void	init(char **argv, t_data *ap);
@@ -48,6 +48,6 @@ void	alloc(t_data *ap);
 void	cleanup_data(t_data *ap);
 void	mutex_init(t_data *ap);
 void	thread_process(t_data *ap);
-void	print_event(int id, char *event);
-
+void	print_event(t_philo *philo, char *event);
+size_t	get_start_time(t_data *ap);
 #endif

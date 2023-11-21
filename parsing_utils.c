@@ -8,7 +8,7 @@ int	ft_isdigit(int a)
 		return (0);
 }
 
-int	parse(char **av)
+void	parse(char **av)
 {
 	int	i;
 
@@ -16,7 +16,7 @@ int	parse(char **av)
 	check_digit(av);
 	if (atoi(av[1]) > 200 || atoi(av[1]) < 1)
 	{
-		write(1, "Number is not valid\n", 21);
+		write(2, "Number is not valid\n", 21);
 		exit(1);
 	}
 	while (av[i] != NULL)
@@ -25,17 +25,16 @@ int	parse(char **av)
 			break ;
 		if (atoi(av[i]) < 60)
 		{
-			write(1, "Time is not enough\n", 20);
+			write(2, "Time is not enough\n", 20);
 			exit(1);
 		}
 		i++;
 	}
 	if (av[i] != NULL && atoi(av[i]) < 1)
 	{
-		write(1, "Last argument ain't valid\n", 27);
+		write(2, "Last argument ain't valid\n", 27);
 		exit(1);
 	}
-	return (0);
 }
 
 void	check_digit(char **av)
