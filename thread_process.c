@@ -17,21 +17,43 @@ void	routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->time_death = 0;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->info->fork[philo->l_fork]);
-		print_event(philo->id, "has taken left fork");
-		pthread_mutex_lock(&philo->info->fork[philo->r_fork]);
-		print_event(philo->id, "has taken right fork");
-		eat(philo);
+		philo->success = pthread_mutex_lock(&philo->info->fork[philo->l_fork]);
+		philo->success2 = pthread_mutex_lock(&philo->info->fork[philo->r_fork]);
+		if (philo->success == 0 && philo->success2 == 0)
+		{
+			pickup_forks(philo);
+			eat(philo);
+			pthread_mutex_unlock(&philo->info->fork[philo->l_fork]);
+			pthread_mutex_unlock(&philo->info->fork[philo->r_fork]);
+		}
+		else if (philo->success != 0 || philo->success2 != 0)
+		{
+			print_event(philo->id, "is thinking");
+			while (philo->success != 0|| philo->success2 != 0)
+				philo->time_death += 1;
+			usleep(100 * 1000);
+		}
 	}
 }
 
 void	eat(t_philo *philo)
 {
-	while (philo)
-	{
-		print_event(philo, "is eating");
-	
-	}
+	philo->time_death = 0;
+	print_event(philo->id, "is eating");
+	usleep(philo->info->time_eat * 1000);
+	philo->time_death += philo->info->time_eat;
+	print_event(philo->id, "is sleeping");
+	usleep(philo->info->sleepin_ti * 1000);
+	philo->time_death += philo->info->sleepin_ti;
+	philo->success = 1;
+	philo->success2 = 1;
+}
+
+void	pickup_forks(t_philo *philo)
+{
+	print_event(philo->id, "has taken left fork");
+	print_event(philo->id, "has taken right fork");
 }

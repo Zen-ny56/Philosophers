@@ -16,9 +16,11 @@ typedef struct s_philo
 	size_t		time_death;
 	size_t		time_eat;
 	int				id;
+	int				success;
 	pthread_mutex_t	lock;
 	int				r_fork;
 	int 			l_fork;
+	int 			success2;
 	t_data			*info;
 }
 		t_philo;
