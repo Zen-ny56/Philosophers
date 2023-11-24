@@ -52,4 +52,5 @@ void	mutex_init(t_data *ap);
 void	thread_process(t_data *ap);
 void	print_event(t_philo *philo, char *event);
 size_t	get_start_time(t_data *ap);
+void	pickup_forks(t_philo *philo);
 #endif

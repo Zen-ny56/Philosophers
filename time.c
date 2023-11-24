@@ -20,3 +20,13 @@ size_t	get_start_time(t_data *ap)
 	gettimeofday(&start, NULL);
 	return (start.tv_sec * 1000) + (start.tv_usec / 1000);
 }
+
+size_t	get_thinking_time(void)
+{
+	struct timeval	now;
+	size_t	thinking_start;
+	size_t			end;
+	gettimeofday(&now, NULL);
+	time = (now.tv_sec * 1000) + (now.tv_usec / 1000);
+	return (time);	
+}

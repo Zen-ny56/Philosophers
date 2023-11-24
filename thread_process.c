@@ -32,9 +32,6 @@ void	routine(void *arg)
 		else if (philo->success != 0 || philo->success2 != 0)
 		{
 			print_event(philo->id, "is thinking");
-			while (philo->success != 0|| philo->success2 != 0)
-				philo->time_death += 1;
-			usleep(100 * 1000);
 		}
 	}
 }
