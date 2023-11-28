@@ -16,11 +16,8 @@ typedef struct s_philo
 	size_t		time_death;
 	size_t		time_eat;
 	int				id;
-	int				success;
-	pthread_mutex_t	lock;
-	int				r_fork;
-	int 			l_fork;
-	int 			success2;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t *l_fork;
 	t_data			*info;
 }
 		t_philo;
@@ -51,6 +48,8 @@ void	cleanup_data(t_data *ap);
 void	mutex_init(t_data *ap);
 void	thread_process(t_data *ap);
 void	print_event(t_philo *philo, char *event);
-size_t	get_start_time(t_data *ap);
+size_t	get_start_time(void)
 void	pickup_forks(t_philo *philo);
+void	ft_usleep(size_t time, t_data *ap);
+
 #endif
