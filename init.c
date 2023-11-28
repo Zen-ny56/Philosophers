@@ -26,6 +26,8 @@ void	mutex_init(t_data *ap)
 	int	i;
 
 	i = 0;
+	pthread_mutex_init(&ap->lock, NULL);
+	pthread_mutex_init(&ap->write, NULL);
 	while (i < ap->num_philo)
 	{
 		pthread_mutex_init(&ap->fork[i], NULL);
