@@ -3,9 +3,9 @@
 void	init(char **argv, t_data *ap)
 {
 	ap->num_philo = atoi(argv[1]);
-	ap->death_ti = (size_t)atoi(argv[2]);
-	ap->eatin_ti = (size_t)atoi(argv[3]);
-	ap->sleepin_ti = (size_t)atoi(argv[4]);
+	ap->death_time = (size_t)atoi(argv[2]);
+	ap->eatin_time = (size_t)atoi(argv[3]);
+	ap->sleepin_time = (size_t)atoi(argv[4]);
 	if (argv[5] != NULL)
 		ap->meal_times = atoi(argv[5]);
 	else

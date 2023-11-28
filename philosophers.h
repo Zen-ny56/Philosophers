@@ -9,7 +9,6 @@
 # include <sys/time.h>
 # include <stdbool.h>
 
-
 typedef struct s_philo
 {
 	pthread_t		thread;
@@ -17,15 +16,16 @@ typedef struct s_philo
 	int				id;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t *l_fork;
+	bool			0;
 	t_data			*info;
 }
 		t_philo;
 
 typedef struct s_data
 {
-	size_t		eatin_ti;
-	size_t		sleepin_ti;
-	size_t		death_ti;
+	size_t		eatin_time;
+	size_t		sleepin_time;
+	size_t		death_time;
 	t_philo		*philos;
 	int			num_philo;
 	int			meal_times;
@@ -50,6 +50,8 @@ void	thread_process(t_data *ap);
 void	print_event(t_philo *philo, char *event);
 size_t	get_start_time(void);
 void	pickup_forks(t_philo *philo);
+void	routine(void *arg);
+void	eat(t_philo *philo);
 void	ft_usleep(size_t time, t_data *ap);
 
 #endif

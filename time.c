@@ -30,9 +30,9 @@ size_t	get_elapsed_time(t_data *ap)
 
 void	ft_usleep(size_t time, t_data *ap)
 {
-	size_t	start;
+	size_t	time_passed;
 
-	start = get_elapsed_time(ap);
-	while (get_elapsed_time < time)
+	time_passed = get_elapsed_time(ap);
+	while (time_passed < time)
 		usleep(100);
 }
