@@ -9,7 +9,7 @@ void    eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->lock);
 }
 
-void	sleep(t_philo *philo)
+void	ft_sleep(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
 	philo->is_eating = false;
@@ -27,7 +27,7 @@ void	check_death(t_philo *philo)
 		pthread_mutex_unlock(&philo->info->lock);
 		pthread_join(philo->thread, NULL);
 		pthread_mutex_destroy(&philo->info->lock);
-		pthread_mutex_destroy(&philo->info->fork);
+		pthread_mutex_destroy(philo->info->fork);
 		cleanup_data(philo->info);
 		exit(0);
 	}

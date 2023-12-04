@@ -52,7 +52,7 @@ void	init_personal_data(t_data *ap)
 		ap->philos[i].id = i + 1;
 		i++;
 	}
-	i = 0;make 
+	i = 0;
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].ate_last = false;

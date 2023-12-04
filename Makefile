@@ -8,12 +8,10 @@ CC = cc
 
 CFLAGS = -Wall -Werror -Wextra -Iheader
 
-HEADER =  philosophers.h
-
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+		@$(CC) $(CFLAGS) $(OBJ) $(NAME)
 
 clean:
 	rm -rf $(OBJ)

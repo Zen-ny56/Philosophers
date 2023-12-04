@@ -12,7 +12,7 @@ void	thread_process(t_data *ap)
 	}
 }
 
-void	routine(void *arg)
+void	*routine(void *arg)
 {
 	t_philo	*philo;
 
@@ -20,8 +20,12 @@ void	routine(void *arg)
 	check_death(philo);
 	pickup_forks(philo);
 	eat(philo);
-	drop_forks(philo);
-	sleep(philo);
+	if (philo->is_eating == true)
+	{
+		drop_forks(philo);
+		ft_sleep(philo);
+	}
+	return (NULL);
 }
 
 void	pickup_forks(t_philo *philo)
@@ -29,16 +33,16 @@ void	pickup_forks(t_philo *philo)
 	if (philo->id % 2 != 0)
 	{
 		pthread_mutex_lock(philo->l_fork);
-		print_event(philo->id, "has taken left fork");
+		print_event(philo, "has taken left fork");
 		pthread_mutex_lock(philo->r_fork);
-		print_event(philo->id, "has taken right fork");
+		print_event(philo, "has taken right fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->r_fork);
-		print_event(philo->id, "has taken right fork");
+		print_event(philo, "has taken right fork");
 		pthread_mutex_lock(philo->l_fork);
-		print_event(philo->id, "has taken left fork");
+		print_event(philo, "has taken left fork");
 	}
 }
 

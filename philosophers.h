@@ -54,9 +54,15 @@ void	thread_process(t_data *ap);
 void	print_event(t_philo *philo, char *event);
 size_t	get_start_time(void);
 void	pickup_forks(t_philo *philo);
-void	routine(void *arg);
+void	*routine(void *arg);
 void	eat(t_philo *philo);
 void	ft_usleep(size_t time, t_data *ap);
 void	check_death(t_philo *philo);
+void	ft_sleep(t_philo *philo);
+void	check_death(t_philo *philo);
+void	cleanup_data(t_data *ap);
+size_t	get_elapsed_time(t_data *ap);
+void	init_personal_data(t_data *ap);
+void	drop_forks(t_philo *philo);
 
 #endif
