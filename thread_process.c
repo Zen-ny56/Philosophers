@@ -48,5 +48,6 @@ void	drop_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_lock(&philo->info->lock);
 	philo->last_meal_time = get_elapsed_time(philo->info);
+	philo->ate_last = true;
 	pthread_mutex_unlock(&philo->info->lock);
 }

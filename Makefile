@@ -10,6 +10,8 @@ CFLAGS = -Wall -Werror -Wextra -Iheader
 
 HEADER =  philosophers.h
 
+all: $(NAME)
+
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 

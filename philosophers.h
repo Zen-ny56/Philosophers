@@ -9,17 +9,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 
-typedef struct s_philo
-{
-	pthread_t		thread;
-	size_t	last_meal_time;
-	int				id;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t *l_fork;
-	bool			0;
-	t_data			*info;
-}
-		t_philo;
+typedef struct s_philo t_philo;
 
 typedef struct s_data
 {
@@ -38,6 +28,20 @@ typedef struct s_data
 }
 			t_data;
 
+typedef struct s_philo
+{
+	pthread_t		thread;
+	size_t	last_meal_time;
+	int					id;
+	bool			ate_last;
+	bool			is_eating;
+	pthread_mutex_t	*r_fork;
+	pthread_mutex_t *l_fork;
+	t_data			*info;
+}
+		t_philo;
+
+
 int		ft_isdigit(int a);
 void	parse(char **av);
 void	check_digit(char **av);
@@ -53,5 +57,6 @@ void	pickup_forks(t_philo *philo);
 void	routine(void *arg);
 void	eat(t_philo *philo);
 void	ft_usleep(size_t time, t_data *ap);
+void	check_death(t_philo *philo);
 
 #endif

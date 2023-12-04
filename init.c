@@ -32,18 +32,36 @@ void	mutex_init(t_data *ap)
 	{
 		pthread_mutex_init(&ap->fork[i], NULL);
 		i++;
-	} 
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].id = i + 1;
-		i++;
 	}
 	i = 0;
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].l_fork = &ap->fork[i];
 		ap->philos[i].r_fork = &ap->fork[(i + 1) % ap->num_philo];
+		i++;
+	}
+}
+
+void	init_personal_data(t_data *ap)
+{
+	int	i;
+
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].id = i + 1;
+		i++;
+	}
+	i = 0;make 
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].ate_last = false;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].is_eating = false;
 		i++;
 	}
 }
