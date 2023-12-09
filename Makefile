@@ -4,14 +4,17 @@ SRCS = main.c parsing_utils.c init.c thread_process.c time.c eat.c
 
 OBJ = $(SRCS:.c=.o)
 
-CC = cc
+CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -Iheader
+CFLAGS = -Wall -Werror -Wextra -Iheader -lpthread
 
 all: $(NAME)
 
+%.o: %.c
+	$(CC) -c $< -o $@ $(CFLAGS)
+
 $(NAME): $(OBJ)
-		@$(CC) $(CFLAGS) $(OBJ) $(NAME)
+	$(CC) $(OBJ) -o $(NAME) $(CFLAGS)
 
 clean:
 	rm -rf $(OBJ)
@@ -19,4 +22,6 @@ clean:
 fclean: clean
 	rm -rf $(NAME)
 
-re: fclean all philosophers re
+re: fclean all
+
+.PHONY: all clean fclean re

@@ -28,6 +28,8 @@ void	mutex_init(t_data *ap)
 	i = 0;
 	pthread_mutex_init(&ap->lock, NULL);
 	pthread_mutex_init(&ap->write, NULL);
+	pthread_mutex_init(&ap->philos->life_check, NULL);
+	pthread_mutex_init(&ap->philos->lala, NULL);
 	while (i < ap->num_philo)
 	{
 		pthread_mutex_init(&ap->fork[i], NULL);
@@ -50,8 +52,10 @@ void	init_personal_data(t_data *ap)
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].id = i + 1;
+		ap->philos[i].info = ap;
 		i++;
 	}
+
 	i = 0;
 	while (i < ap->num_philo)
 	{
@@ -64,4 +68,29 @@ void	init_personal_data(t_data *ap)
 		ap->philos[i].is_eating = false;
 		i++;
 	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].meals_eaten = 0;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].last_meal_time = 0;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].is_dead = false;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].is_sleeping = false;
+		i++;
+	}
 }
+

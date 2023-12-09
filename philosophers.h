@@ -32,9 +32,14 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	size_t	last_meal_time;
+	size_t		meals_eaten;
 	int					id;
 	bool			ate_last;
 	bool			is_eating;
+	bool			is_dead;
+	bool			is_sleeping;
+	pthread_mutex_t	life_check;
+	pthread_mutex_t lala;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t *l_fork;
 	t_data			*info;
@@ -64,5 +69,6 @@ void	cleanup_data(t_data *ap);
 size_t	get_elapsed_time(t_data *ap);
 void	init_personal_data(t_data *ap);
 void	drop_forks(t_philo *philo);
+void	check_values(t_philo *philo);
 
 #endif
