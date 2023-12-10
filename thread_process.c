@@ -26,17 +26,12 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	check_values(philo);
-	check_death(philo);
+	//check_priority(philo);
 	registration(philo);
 	r_u_on_the_list(philo);
 	get_a_table(philo);
-	if (philo->is_eating == true)
-	{
-		drop_forks(philo);
-		ft_sleep(philo);
-	}
-		return (NULL);
+	bon_appetit(philo);
+	return (NULL);
 }
 
 void	registration(t_philo *philo)
@@ -116,6 +111,7 @@ void	bon_appetit(t_philo *philo)
 	if (philo->taken_forks == true)
 	{
 		eat(philo);
+		printf("Here\n");
 		drop_forks(philo);
 		ft_sleep(philo);
 	}
@@ -127,6 +123,7 @@ void	drop_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_lock(&philo->info->lock);
 	philo->last_meal_time = get_elapsed_time(philo->info);
-	philo->ate_last = true;
+	philo->meals_eaten++;
+	philo->taken_forks = false;
 	pthread_mutex_unlock(&philo->info->lock);
 }

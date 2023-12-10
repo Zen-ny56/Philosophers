@@ -37,7 +37,6 @@ typedef struct s_philo
 	size_t		meals_eaten;
 	int					id;
 	bool			ate_last;
-	bool			is_eating;
 	bool			is_dead;
 	bool			is_sleeping;
 	bool			taken_forks;
