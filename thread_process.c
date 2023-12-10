@@ -44,8 +44,8 @@ void	registration(t_philo *philo)
 		pthread_mutex_lock(philo->r_fork);
 		print_event(philo, "has taken right fork");
 		philo->taken_forks = true;
+		philo->pickup_forks = true;
 		philo->info->is_even = 1;
-
 	}
 	else if (philo->id % 2 == 0 && philo->info->is_even == -1)
 	{
@@ -54,6 +54,7 @@ void	registration(t_philo *philo)
 		pthread_mutex_lock(philo->l_fork);
 		print_event(philo, "has taken left fork");
 		philo->taken_forks = true;
+		philo->pickup_forks = true;
 		philo->info->is_even = 2;
 	}
 	pthread_mutex_unlock(&philo->info->picking_first);
@@ -95,7 +96,7 @@ void	get_a_table(t_philo *philo)
 			print_event(philo, "has taken right fork");
 			philo->taken_forks = true;
 		}
-		else
+		else if (philo->id % 2 == 0 && philo->taken_forks == false)
 		{
 			pthread_mutex_lock(philo->r_fork);
 			print_event(philo, "has taken right fork");
@@ -111,7 +112,6 @@ void	bon_appetit(t_philo *philo)
 	if (philo->taken_forks == true)
 	{
 		eat(philo);
-		printf("Here\n");
 		drop_forks(philo);
 		ft_sleep(philo);
 	}

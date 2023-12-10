@@ -66,7 +66,7 @@ void	init_personal_data(t_data *ap)
 	i = 0;
 	while (i < ap->num_philo)
 	{
-		ap->philos[i].is_eating = false;
+		ap->philos[i].ate_last = false;
 		i++;
 	}
 	i = 0;
@@ -99,5 +99,10 @@ void	init_personal_data(t_data *ap)
 		ap->philos[i].taken_forks = false;
 		i++;
 	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].pickup_forks = false;
+		i++;
+	}
 }
-
