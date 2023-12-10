@@ -17,12 +17,10 @@ void    eat(t_philo *philo)
 
 void	ft_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->lala);
 	pthread_mutex_lock(&philo->info->lock);
 	philo->is_eating = false;
 	print_event(philo, "is sleeping");
 	pthread_mutex_unlock(&philo->info->lock);
-	pthread_mutex_unlock(&philo->lala);
 }
 
 void	check_death(t_philo *philo)

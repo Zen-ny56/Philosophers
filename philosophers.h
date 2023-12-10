@@ -21,7 +21,9 @@ typedef struct s_data
 	int			meal_times;
 	int			time_eat;
 	int			time_death;
+	int			is_even;
 	pthread_mutex_t	lock;
+	pthread_mutex_t picking_first;
 	pthread_mutex_t *fork;
 	pthread_mutex_t write;
 	size_t			start;
@@ -38,8 +40,9 @@ typedef struct s_philo
 	bool			is_eating;
 	bool			is_dead;
 	bool			is_sleeping;
-	pthread_mutex_t	life_check;
-	pthread_mutex_t lala;
+	bool			taken_forks;
+	bool			pickup_forks;
+	pthread_mutex_t	front_desk;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t *l_fork;
 	t_data			*info;
@@ -58,7 +61,6 @@ void	mutex_init(t_data *ap);
 void	thread_process(t_data *ap);
 void	print_event(t_philo *philo, char *event);
 size_t	get_start_time(void);
-void	pickup_forks(t_philo *philo);
 void	*routine(void *arg);
 void	eat(t_philo *philo);
 void	ft_usleep(size_t time, t_data *ap);
@@ -70,5 +72,9 @@ size_t	get_elapsed_time(t_data *ap);
 void	init_personal_data(t_data *ap);
 void	drop_forks(t_philo *philo);
 void	check_values(t_philo *philo);
+void	registration(t_philo *philo);
+void	r_u_on_the_list(t_philo *philo);
+void	get_a_table(t_philo *philo);
+void	bon_appetit(t_philo *philo);
 
 #endif

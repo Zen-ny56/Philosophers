@@ -12,6 +12,7 @@ void	init(char **argv, t_data *ap)
 		ap->meal_times = -1;
 	ap->time_death = 0;
 	ap->time_eat = 0;
+	ap->is_even = -1;
 }
 
 void	alloc(t_data *ap)
@@ -28,8 +29,8 @@ void	mutex_init(t_data *ap)
 	i = 0;
 	pthread_mutex_init(&ap->lock, NULL);
 	pthread_mutex_init(&ap->write, NULL);
-	pthread_mutex_init(&ap->philos->life_check, NULL);
-	pthread_mutex_init(&ap->philos->lala, NULL);
+	pthread_mutex_init(&ap->philos->front_desk, NULL);
+	pthread_mutex_init(&ap->picking_first, NULL);
 	while (i < ap->num_philo)
 	{
 		pthread_mutex_init(&ap->fork[i], NULL);
@@ -90,6 +91,12 @@ void	init_personal_data(t_data *ap)
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].is_sleeping = false;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].taken_forks = false;
 		i++;
 	}
 }
