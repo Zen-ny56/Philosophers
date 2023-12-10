@@ -47,7 +47,7 @@ void	cleanup_data(t_data *ap)
 	free(ap->philos);
 }
 
-void	check_priority(t_philo *philo)
-{
-	if 
-}
+// void	check_priority(t_philo *philo)
+// {
+// 	if
+// }
