@@ -13,12 +13,13 @@ void	init(char **argv, t_data *ap)
 	ap->time_death = 0;
 	ap->time_eat = 0;
 	ap->is_even = -1;
+	ap->started = false;
 }
 
 void	alloc(t_data *ap)
 {
-	int	i = 0;
 	//ap->ti = (pthread_t *)malloc(sizeof(pthread_t) * ap->num_philo);
+	ap->array = (int *)malloc(sizeof(int) * ap->num_philo);
 	ap->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
 }
@@ -42,6 +43,19 @@ void	mutex_init(t_data *ap)
 	{
 		ap->philos[i].l_fork = &ap->fork[i];
 		ap->philos[i].r_fork = &ap->fork[(i + 1) % ap->num_philo];
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->array[i] = i;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].lflag = ap->array[i];
+		ap->philos[i].rflag = ap->array[(i + 1) % ap->num_philo];
 		i++;
 	}
 }
@@ -102,8 +116,7 @@ void	init_personal_data(t_data *ap)
 	i = 0;
 	while (i < ap->num_philo)
 	{
-		ap->philos[i].lflag = i;
-		ap->philos[i].rflag = (i + 1) % ap->num_philo;
+		ap->philos[i].just_ate = false;
 		i++;
 	}
 }

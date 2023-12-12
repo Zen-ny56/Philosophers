@@ -4,8 +4,8 @@ void    eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is eating");
-	philo->info->lflag = philo->id;
-	philo->info->rflag = philo->id;
+	philo->lflag = philo->id;
+	philo->rflag = philo->id;
 	pthread_mutex_unlock(&philo->info->lock);
 	philo->meals_eaten++;
 	ft_usleep(philo->info->eatin_time, philo->info);
@@ -30,7 +30,6 @@ void	check_death(t_philo *philo)
 		pthread_mutex_destroy(&philo->info->lock);
 		pthread_mutex_destroy(philo->info->fork);
 		cleanup_data(philo->info);
-		exit(0);
 	}
 	pthread_mutex_unlock(&philo->info->lock);
 }
@@ -49,4 +48,3 @@ void	cleanup_data(t_data *ap)
 	free(ap->fork);
 	free(ap->philos);
 }
-
