@@ -26,11 +26,17 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	//check_priority(philo);
-	registration(philo);
-	r_u_on_the_list(philo);
-	get_a_table(philo);
-	bon_appetit(philo);
+	while (lock_mutex(philo) == 0 && philo->meals_eaten < philo->info->meal_times)
+	{
+		printf("philo %d l_flag %d r_flag %d\n", philo->id, philo->info->lflag, philo->info->rflag);
+		pthread_mutex_unlock(&philo->info->lock);
+		if (philo->lflag != philo->id && philo->rflag != philo->id)
+			registration(philo);
+		pthread_mutex_unlock(&philo->info->lock);
+		r_u_on_the_list(philo);
+		get_a_table(philo);
+		bon_appetit(philo);
+	}
 	return (NULL);
 }
 
@@ -126,4 +132,10 @@ void	drop_forks(t_philo *philo)
 	philo->meals_eaten++;
 	philo->taken_forks = false;
 	pthread_mutex_unlock(&philo->info->lock);
+}
+
+int	lock_mutex(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->lock);
+	return (0);
 }

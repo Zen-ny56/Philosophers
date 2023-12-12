@@ -4,7 +4,10 @@ void    eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is eating");
+	philo->info->lflag = philo->id;
+	philo->info->rflag = philo->id;
 	pthread_mutex_unlock(&philo->info->lock);
+	philo->meals_eaten++;
 	ft_usleep(philo->info->eatin_time, philo->info);
 }
 
@@ -47,7 +50,3 @@ void	cleanup_data(t_data *ap)
 	free(ap->philos);
 }
 
-// void	check_priority(t_philo *philo)
-// {
-// 	if
-// }

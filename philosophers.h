@@ -17,6 +17,7 @@ typedef struct s_data
 	size_t		sleepin_time;
 	size_t		death_time;
 	t_philo		*philos;
+	int			*forks;
 	int			num_philo;
 	int			meal_times;
 	int			time_eat;
@@ -34,8 +35,10 @@ typedef struct s_philo
 {
 	pthread_t		thread;
 	size_t	last_meal_time;
-	size_t		meals_eaten;
+	int 		meals_eaten;
 	int					id;
+	int					lflag;
+	int					rflag;
 	bool			ate_last;
 	bool			is_dead;
 	bool			is_sleeping;
@@ -75,5 +78,6 @@ void	registration(t_philo *philo);
 void	r_u_on_the_list(t_philo *philo);
 void	get_a_table(t_philo *philo);
 void	bon_appetit(t_philo *philo);
+int		lock_mutex(t_philo *philo);
 
 #endif
