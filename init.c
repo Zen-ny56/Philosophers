@@ -119,4 +119,10 @@ void	init_personal_data(t_data *ap)
 		ap->philos[i].just_ate = false;
 		i++;
 	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].check = false;
+		i++;
+	}
 }

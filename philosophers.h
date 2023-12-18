@@ -81,5 +81,6 @@ void	r_u_on_the_list(t_philo *philo);
 void	get_a_table(t_philo *philo);
 void	bon_appetit(t_philo *philo);
 int		lock_mutex(t_philo *philo);
+void	print_values(t_philo *philo);
 
 #endif

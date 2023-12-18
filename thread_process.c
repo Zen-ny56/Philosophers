@@ -30,6 +30,10 @@ void	*routine(void *arg)
 	{
 		while (philo->meals_eaten < philo->info->meal_times)
 		{
+			if (philo->meals_eaten == 1)
+			{
+				print_values(philo);
+			}
 			if (philo->info->started == false)
 			{
 				pthread_mutex_lock(&philo->info->lock);
@@ -41,7 +45,6 @@ void	*routine(void *arg)
 			}
 			else
 			{
-				pthread_mutex_unlock(&philo->info->lock);
 				if (philo->lflag == philo->id && philo->rflag == philo->id)
 				{
 					pthread_mutex_lock(&philo->p_data);
@@ -89,7 +92,7 @@ void	registration(t_philo *philo)
 
 void	r_u_on_the_list(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
+	pthread_mutex_lock(&philo->p_data);
 	if (philo->info->is_even == 1)
 	{
 		if (philo->id % 2 > 0)
@@ -100,7 +103,7 @@ void	r_u_on_the_list(t_philo *philo)
 		if (philo->id % 2 == 0)
 			philo->pickup_forks = true;
 	}
-	pthread_mutex_unlock(&philo->info->lock);
+	pthread_mutex_unlock(&philo->p_data);
 }
 
 void	get_a_table(t_philo *philo)
@@ -165,14 +168,12 @@ void	drop_forks(t_philo *philo)
 	pthread_mutex_unlock(&philo->info->lock);
 }
 
-int	lock_mutex(t_philo *philo)
+void	print_values(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
-	return (0);
-}
-
-int unlock(t_philo *philo)
-{
-	pthread_mutex_unlock(&philo->info->lock);
-	return (0);
+	printf("id: %d meals_eaten %d\n", philo->id, philo->meals_eaten);;
+	printf("id: %d lflag %d\n", philo->id, philo->lflag);
+	printf("id: %d rflag %d\n", philo->id, philo->rflag);
+	printf("id: %d taken forks %d\n", philo->id, philo->taken_forks);
+	printf("id: %d pickup_forks %d\n", philo->id, philo->pickup_forks);
+	printf("id: %d just_ate %d\n", philo->id,  philo->just_ate);
 }
