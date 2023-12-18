@@ -46,6 +46,7 @@ typedef struct s_philo
 	bool			taken_forks;
 	bool			pickup_forks;
 	bool			just_ate;
+	bool			check;
 	pthread_mutex_t	p_data;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t *l_fork;
