@@ -140,10 +140,10 @@ void	drop_forks(t_philo *philo)
 	{
 		pthread_mutex_unlock(philo->r_fork);
 		pthread_mutex_unlock(philo->l_fork);
-		pthread_mutex_lock(philo->p_data);
+		pthread_mutex_lock(&philo->p_data);
 		philo->taken_forks = false;
 		philo->pickup_forks = false;
-		pthread_mutex_unlock(philo->p_data);
+		pthread_mutex_unlock(&philo->p_data);
 		philo->info->is_even = -1;
 		print_event(philo, "has dropped right fork");
 		print_event(philo, "has dropped left fork");
@@ -152,10 +152,10 @@ void	drop_forks(t_philo *philo)
 	{
 		pthread_mutex_unlock(philo->l_fork);
 		pthread_mutex_unlock(philo->r_fork);
-		pthread_mutex_lock(philo->p_data);
+		pthread_mutex_lock(&philo->p_data);
 		philo->taken_forks = false;
 		philo->pickup_forks = false;
-		pthread_mutex_unlock(philo->p_data);
+		pthread_mutex_unlock(&philo->p_data);
 		philo->info->is_even = -1;
 		print_event(philo, "has dropped left fork");
 		print_event(philo, "has dropped right fork");
