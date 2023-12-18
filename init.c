@@ -54,8 +54,8 @@ void	mutex_init(t_data *ap)
 	i = 0;
 	while (i < ap->num_philo)
 	{
-		ap->philos[i].lflag = ap->array[i];
-		ap->philos[i].rflag = ap->array[(i + 1) % ap->num_philo];
+		ap->philos[i].lflag = &ap->array[i];
+		ap->philos[i].rflag = &ap->array[(i + 1) % ap->num_philo];
 		i++;
 	}
 }
@@ -69,12 +69,6 @@ void	init_personal_data(t_data *ap)
 	{
 		ap->philos[i].id = i + 1;
 		ap->philos[i].info = ap;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].ate_last = false;
 		i++;
 	}
 	i = 0;
@@ -104,25 +98,7 @@ void	init_personal_data(t_data *ap)
 	i = 0;
 	while (i < ap->num_philo)
 	{
-		ap->philos[i].taken_forks = false;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].pickup_forks = false;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
 		ap->philos[i].just_ate = false;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].check = false;
 		i++;
 	}
 }

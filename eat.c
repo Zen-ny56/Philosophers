@@ -4,8 +4,10 @@ void    eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is eating");
-	philo->lflag = philo->id;
-	philo->rflag = philo->id;
+	philo->lflag = &philo->id;
+	philo->rflag = &philo->id;
+	philo->info->meal_times++;
+	philo->just_ate = true;
 	pthread_mutex_unlock(&philo->info->lock);
 	philo->meals_eaten++;
 	ft_usleep(philo->info->eatin_time, philo->info);

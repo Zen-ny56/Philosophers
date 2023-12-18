@@ -38,15 +38,11 @@ typedef struct s_philo
 	size_t	last_meal_time;
 	int 		meals_eaten;
 	int				id;
-	int				lflag;
-	int				rflag;
-	bool			ate_last;
+	int				*lflag;
+	int				*rflag;
 	bool			is_dead;
-	bool			is_sleeping;
-	bool			taken_forks;
-	bool			pickup_forks;
 	bool			just_ate;
-	bool			check;
+	bool			is_sleeping;
 	pthread_mutex_t	p_data;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t *l_fork;
