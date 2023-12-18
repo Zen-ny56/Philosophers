@@ -31,7 +31,7 @@ void	mutex_init(t_data *ap)
 	i = 0;
 	pthread_mutex_init(&ap->lock, NULL);
 	pthread_mutex_init(&ap->write, NULL);
-	pthread_mutex_init(&ap->philos->front_desk, NULL);
+	pthread_mutex_init(&ap->philos->p_data, NULL);
 	pthread_mutex_init(&ap->picking_first, NULL);
 	while (i < ap->num_philo)
 	{

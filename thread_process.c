@@ -44,10 +44,9 @@ void	*routine(void *arg)
 				pthread_mutex_unlock(&philo->info->lock);
 				if (philo->lflag == philo->id && philo->rflag == philo->id)
 				{
-					pthread_mutex_unlock(&philo->info->lock);
-					pthread_mutex_lock(&philo->front_desk);
+					pthread_mutex_lock(&philo->p_data);
 					philo->just_ate = true;
-					pthread_mutex_unlock(&philo->front_desk);
+					pthread_mutex_unlock(&philo->p_data);
 				}
 				registration(philo);
 				r_u_on_the_list(philo);
@@ -61,7 +60,7 @@ void	*routine(void *arg)
 
 void	registration(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->picking_first);
+	pthread_mutex_lock(&philo->info->lock);
 	if (philo->id % 2 > 0 && philo->info->is_even == -1)
 	{
 		pthread_mutex_lock(philo->r_fork);
@@ -82,7 +81,7 @@ void	registration(t_philo *philo)
 		philo->pickup_forks = true;
 		philo->info->is_even = 2;
 	}
-	pthread_mutex_unlock(&philo->info->picking_first);
+	pthread_mutex_unlock(&philo->info->lock);
 }
 
 void	r_u_on_the_list(t_philo *philo)
@@ -91,20 +90,12 @@ void	r_u_on_the_list(t_philo *philo)
 	if (philo->info->is_even == 1)
 	{
 		if (philo->id % 2 > 0)
-		{
-			pthread_mutex_lock(&philo->front_desk);
 			philo->pickup_forks = true;
-			pthread_mutex_unlock(&philo->front_desk);
-		}
 	}
 	else if (philo->info->is_even == 2)
 	{
 		if (philo->id % 2 == 0)
-		{
-			pthread_mutex_lock(&philo->front_desk);
 			philo->pickup_forks = true;
-			pthread_mutex_unlock(&philo->front_desk);
-		}
 	}
 	pthread_mutex_unlock(&philo->info->lock);
 }
@@ -117,15 +108,15 @@ void	get_a_table(t_philo *philo)
 		{
 			pthread_mutex_lock(philo->r_fork);
 			print_event(philo, "has taken right fork");
-			pthread_mutex_lock(philo->r_fork);
+			pthread_mutex_lock(philo->l_fork);
 			print_event(philo, "has taken left fork");
 			philo->taken_forks = true;
 		}
 		else if (philo->id % 2 == 0 && philo->taken_forks == false)
 		{
-			pthread_mutex_lock(philo->r_fork);
-			print_event(philo, "has taken left fork");
 			pthread_mutex_lock(philo->l_fork);
+			print_event(philo, "has taken left fork");
+			pthread_mutex_lock(philo->r_fork);
 			print_event(philo, "has taken right fork");
 			philo->taken_forks = true;
 		}
@@ -144,17 +135,30 @@ void	bon_appetit(t_philo *philo)
 
 void	drop_forks(t_philo *philo)
 {
-	pthread_mutex_unlock(philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
 	pthread_mutex_lock(&philo->info->lock);
-	philo->last_meal_time = get_elapsed_time(philo->info);
-	// philo->meals_eaten++;
-	philo->taken_forks = false;
+	if (philo->id % 2 > 0)
+	{
+		pthread_mutex_unlock(philo->r_fork);
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_lock(philo->p_data);
+		philo->taken_forks = false;
+		philo->pickup_forks = false;
+		pthread_mutex_unlock(philo->p_data);
+		philo->info->is_even = -1;
+		print_event(philo, "has dropped right fork");
+		print_event(philo, "has dropped left fork");
+	}
+	else if (philo->id % 2 == 0)
+	{
+		pthread_mutex_unlock(philo->l_fork);
+		pthread_mutex_unlock(philo->r_fork);
+		pthread_mutex_lock(philo->p_data);
+		philo->taken_forks = false;
+		philo->pickup_forks = false;
+		pthread_mutex_unlock(philo->p_data);
+		philo->info->is_even = -1;
+		print_event(philo, "has dropped left fork");
+		print_event(philo, "has dropped right fork");
+	}
 	pthread_mutex_unlock(&philo->info->lock);
-}
-
-int	lock_mutex(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->info->lock);
-	return (0);
 }
