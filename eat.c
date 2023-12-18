@@ -4,8 +4,6 @@ void    eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is eating");
-	philo->lflag = &philo->id;
-	philo->rflag = &philo->id;
 	philo->info->meal_times++;
 	philo->just_ate = true;
 	pthread_mutex_unlock(&philo->info->lock);
@@ -17,10 +15,11 @@ void	ft_sleep(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is sleeping");
+	ft_usleep(philo->info->sleepin_time, philo->info);
 	pthread_mutex_unlock(&philo->info->lock);
 }
 
-void	check_death(t_philo *philo)
+/* void	check_death(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
 	if (get_elapsed_time(philo->info) - philo->last_meal_time > philo->info->death_time)
@@ -34,7 +33,7 @@ void	check_death(t_philo *philo)
 		cleanup_data(philo->info);
 	}
 	pthread_mutex_unlock(&philo->info->lock);
-}
+} */
 
 void	cleanup_data(t_data *ap)
 {

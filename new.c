@@ -51,17 +51,14 @@ void	*routine(void *arg)
 		// 	while (philo->lflag == philo->id && philo->rflag == philo->id)
 		// 		usleep(100);
 		// }
-		
-			if ((philo->rflag == &philo->id || philo->lflag == &philo->id)
-				&& (philo->lflag != &philo->id || philo->rflag != &philo->id))
-			{
-				if (philo->lflag == &philo->id)
-					pthread_mutex_unlock(philo->l_fork);
-				else if (philo->rflag == &philo->id)
-					pthread_mutex_unlock(philo->r_fork);
-			}
-			get_a_table(philo);
-			bon_appetit(philo);
+		get_a_table(philo);
+		// if (philo->lflag == &philo->id && philo->rflag == &philo->id)
+		// {
+		// 	drop_forks(philo);
+		// }
+		// philo->lflag = &philo->id;
+		// philo->rflag = &philo->id;
+		bon_appetit(philo);
 	}
 	return (NULL);
 }
@@ -72,17 +69,16 @@ void	get_a_table(t_philo *philo)
 	if (philo->id % 2 > 0)
 	{
 	    pthread_mutex_lock(philo->r_fork);
-        print_event(philo, "has taken right fork");
 		pthread_mutex_lock(philo->l_fork);
-		print_event(philo, "has taken left fork");
-
+		print_event(philo, "has taken a fork");
+		print_event(philo, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->l_fork);
-		print_event(philo, "has taken left fork");
 		pthread_mutex_lock(philo->r_fork);
-		print_event(philo, "has taken right fork");
+		print_event(philo, "has taken a fork");
+		print_event(philo, "has taken a fork");
 	}
 }
 
@@ -91,6 +87,7 @@ void	bon_appetit(t_philo *philo)
 	eat(philo);
 	drop_forks(philo);
 	ft_sleep(philo);
+	//print_event(philo, "is thinking");
 }
 
 void	drop_forks(t_philo *philo)

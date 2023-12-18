@@ -11,7 +11,6 @@ int main(int ac, char **av)
 	}
 	parse(av);
 	ap = (t_data *)malloc(sizeof(t_data) * 1);
-	ap->start = get_start_time();
 	init(av, ap);
 	alloc(ap);
 	mutex_init(ap);

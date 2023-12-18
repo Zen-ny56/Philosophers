@@ -69,7 +69,7 @@ void	check_death(t_philo *philo);
 void	ft_sleep(t_philo *philo);
 void	check_death(t_philo *philo);
 void	cleanup_data(t_data *ap);
-size_t	get_elapsed_time(t_data *ap);
+// size_t	get_elapsed_time(t_data *ap);
 void	init_personal_data(t_data *ap);
 void	drop_forks(t_philo *philo);
 void	check_values(t_philo *philo);
