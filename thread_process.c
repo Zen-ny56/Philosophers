@@ -28,13 +28,13 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->info->meal_times > 0)
 	{
-		while (lock_mutex(philo) == 0 && philo->meals_eaten < philo->info->meal_times)
+		while (philo->meals_eaten < philo->info->meal_times)
 		{
 			if (philo->info->started == false)
 			{
+				pthread_mutex_lock(&philo->info->lock);
 				philo->info->started = true;
 				registration(philo);
-				pthread_mutex_unlock(&philo->info->lock);
 				r_u_on_the_list(philo);
 				get_a_table(philo);
 				bon_appetit(philo);
@@ -48,10 +48,14 @@ void	*routine(void *arg)
 					philo->just_ate = true;
 					pthread_mutex_unlock(&philo->p_data);
 				}
-				registration(philo);
-				r_u_on_the_list(philo);
-				get_a_table(philo);
-				bon_appetit(philo);
+				if (philo->just_ate == false)
+				{
+					pthread_mutex_lock(&philo->info->lock);
+					registration(philo);
+					r_u_on_the_list(philo);
+					get_a_table(philo);
+					bon_appetit(philo);
+				}
 			}
 		}
 	}
@@ -60,7 +64,6 @@ void	*routine(void *arg)
 
 void	registration(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
 	if (philo->id % 2 > 0 && philo->info->is_even == -1)
 	{
 		pthread_mutex_lock(philo->r_fork);
@@ -135,7 +138,6 @@ void	bon_appetit(t_philo *philo)
 
 void	drop_forks(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
 	if (philo->id % 2 > 0)
 	{
 		pthread_mutex_unlock(philo->r_fork);
@@ -161,4 +163,16 @@ void	drop_forks(t_philo *philo)
 		print_event(philo, "has dropped right fork");
 	}
 	pthread_mutex_unlock(&philo->info->lock);
+}
+
+int	lock_mutex(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->lock);
+	return (0);
+}
+
+int unlock(t_philo *philo)
+{
+	pthread_mutex_unlock(&philo->info->lock);
+	return (0);
 }
