@@ -14,6 +14,7 @@ void	init(char **argv, t_data *ap)
 	ap->time_eat = 0;
 	ap->is_even = -1;
 	ap->started = false;
+	ap->is_dead = false;
 }
 
 void	alloc(t_data *ap)
@@ -81,12 +82,6 @@ void	init_personal_data(t_data *ap)
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].last_meal_time = 0;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].is_dead = false;
 		i++;
 	}
 	i = 0;

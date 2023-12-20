@@ -24,6 +24,7 @@ typedef struct s_data
 	int			time_death;
 	int			is_even;
 	bool		started;
+	bool		is_dead;
 	pthread_mutex_t	lock;
 	pthread_mutex_t picking_first;
 	pthread_mutex_t *fork;
@@ -40,7 +41,6 @@ typedef struct s_philo
 	int				id;
 	int				*lflag;
 	int				*rflag;
-	bool			is_dead;
 	bool			is_eating;
 	bool			just_ate;
 	bool			is_sleeping;

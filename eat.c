@@ -20,12 +20,12 @@ void	ft_sleep(t_philo *philo)
 
 void check_death(t_philo *philo)
 {
-    pthread_mutex_lock(&philo->info->lock);
-    size_t current_time = get_start_time();
-    size_t time_elapsed = current_time - philo->last_meal_time;
-    if (time_elapsed > philo->info->death_time)
-        philo->is_dead = true;
-    pthread_mutex_unlock(&philo->info->lock);
+	pthread_mutex_lock(&philo->info->lock);
+	size_t time_passed = get_start_time() - philo->info->start;
+	size_t time_s_lmeal = time_passed - philo->last_meal_time;
+    if (time_s_lmeal > philo->info->death_time)
+		philo->info->is_dead = true;
+	pthread_mutex_unlock(&philo->info->lock);
 }
 
 void	cleanup_data(t_data *ap)

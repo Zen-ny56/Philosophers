@@ -28,7 +28,8 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		if (philo->is_dead == true)
+		check_death(philo);
+		if (philo->info->is_dead == true)
 		{
 			print_event(philo, "died");
 			exit(0);
@@ -67,20 +68,20 @@ void	r_u_on_the_list(t_philo *philo)
 {
 	if (*(philo->lflag) == philo->id && *(philo->rflag) == philo->id)
 		philo->is_eating = true;
-	else
-	{
-		if (*(philo->lflag ) != philo->id)
-		{
-			pthread_mutex_unlock(philo->l_fork);
-			*(philo->lflag) = 0;
-		}	
-		else if (*(philo->rflag) != philo->id)
-		{
-			pthread_mutex_unlock(philo->r_fork);
-			*(philo->rflag) = 0;
-		}
-		philo->is_eating = false;
-	}
+	// else
+	// {
+	// 	if (*(philo->lflag ) != philo->id)
+	// 	{
+	// 		pthread_mutex_unlock(philo->l_fork);
+	// 		*(philo->lflag) = 0;
+	// 	}	
+	// 	else if (*(philo->rflag) != philo->id)
+	// 	{
+	// 		pthread_mutex_unlock(philo->r_fork);
+	// 		*(philo->rflag) = 0;
+	// 	}
+	// 	philo->is_eating = false;
+	// }
 }
 
 void	bon_appetit(t_philo *philo)
