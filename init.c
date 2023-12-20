@@ -15,6 +15,7 @@ void	init(char **argv, t_data *ap)
 	ap->is_even = -1;
 	ap->started = false;
 	ap->is_dead = false;
+	ap->dead_id = 0;
 }
 
 void	alloc(t_data *ap)

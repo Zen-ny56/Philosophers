@@ -31,7 +31,8 @@ void	*routine(void *arg)
 		check_death(philo);
 		if (philo->info->is_dead == true)
 		{
-			print_event(philo, "died");
+			if (philo->info->dead_id == philo->id)
+				print_event(philo, "died");
 			exit(0);
 		}
 		get_a_table(philo);

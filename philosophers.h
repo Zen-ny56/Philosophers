@@ -23,6 +23,7 @@ typedef struct s_data
 	int			time_eat;
 	int			time_death;
 	int			is_even;
+	int			dead_id;
 	bool		started;
 	bool		is_dead;
 	pthread_mutex_t	lock;
