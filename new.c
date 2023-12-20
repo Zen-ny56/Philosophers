@@ -41,18 +41,18 @@ void	get_a_table(t_philo *philo)
 	if (philo->id % 2 > 0)
 	{
 	    pthread_mutex_lock(philo->r_fork);
-		*(philo->rflag) = true;
 		pthread_mutex_lock(philo->l_fork);
-		*(philo->lflag) = true;
+		*(philo->rflag) = philo->id;
+		*(philo->lflag) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->l_fork);
-		*(philo->lflag )= true;
 		pthread_mutex_lock(philo->r_fork);
-		*(philo->rflag) = true;
+		*(philo->rflag) = philo->id;
+		*(philo->lflag)= philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
 	}
@@ -60,15 +60,25 @@ void	get_a_table(t_philo *philo)
 
 void	r_u_on_the_list(t_philo *philo)
 {
-	if (*(philo->lflag) == true && *(philo->rflag) == true)
+	pthread_mutex_lock(&philo->info->write);
+	printf("philo %d lflag: %d\n", philo->id, *(philo->lflag));
+	printf("philo %d rflag: %d\n", philo->id, *(philo->rflag));
+	pthread_mutex_unlock(&philo->info->write);
+	if (*(philo->lflag) == philo->id && *(philo->rflag) == philo->id)
 		philo->is_eating = true;
-	else if ((*(philo->lflag )== true || *(philo->rflag) == true)
-		&& (*(philo->lflag )== false || *(philo->rflag) == false))
+	else
 	{
-		if (*(philo->lflag )== true)
+		if (*(philo->lflag ) != philo->id)
+		{
 			pthread_mutex_unlock(philo->l_fork);
-		else if (*(philo->rflag) == true)
+			*(philo->lflag) = 0;
+		}	
+		else if (*(philo->rflag) != philo->id)
+		{
 			pthread_mutex_unlock(philo->r_fork);
+			*(philo->rflag) = 0;
+		}
+		philo->is_eating = false;
 	}
 }
 
@@ -79,9 +89,8 @@ void	bon_appetit(t_philo *philo)
 		eat(philo);
 		drop_forks(philo);
 		ft_sleep(philo);
-	}
-	else if (philo->is_eating == false)
 		print_event(philo, "is thinking");
+	}
 }
 
 void	drop_forks(t_philo *philo)

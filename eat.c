@@ -7,6 +7,7 @@ void    eat(t_philo *philo)
 	philo->info->meal_times++;
 	philo->just_ate = true;
 	ft_usleep(philo->info->eatin_time, philo->info);
+	// pthread_mutex_unlock(&philo->info->lock);
 	philo->meals_eaten++;
 }
 

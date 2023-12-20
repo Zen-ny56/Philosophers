@@ -17,7 +17,7 @@ typedef struct s_data
 	size_t		sleepin_time;
 	size_t		death_time;
 	t_philo		*philos;
-	bool		*array;
+	int			*array;
 	int			num_philo;
 	int			meal_times;
 	int			time_eat;
@@ -38,8 +38,8 @@ typedef struct s_philo
 	size_t	last_meal_time;
 	int 		meals_eaten;
 	int				id;
-	bool			*lflag;
-	bool			*rflag;
+	int				*lflag;
+	int				*rflag;
 	bool			is_dead;
 	bool			is_eating;
 	bool			just_ate;
@@ -50,7 +50,6 @@ typedef struct s_philo
 	t_data			*info;
 }
 		t_philo;
-
 
 int		ft_isdigit(int a);
 void	parse(char **av);
