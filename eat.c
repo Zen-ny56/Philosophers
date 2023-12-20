@@ -2,21 +2,18 @@
 
 void    eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
+	// pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is eating");
 	philo->info->meal_times++;
 	philo->just_ate = true;
-	pthread_mutex_unlock(&philo->info->lock);
-	philo->meals_eaten++;
 	ft_usleep(philo->info->eatin_time, philo->info);
+	philo->meals_eaten++;
 }
 
 void	ft_sleep(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is sleeping");
 	ft_usleep(philo->info->sleepin_time, philo->info);
-	pthread_mutex_unlock(&philo->info->lock);
 }
 
 /* void	check_death(t_philo *philo)

@@ -19,7 +19,7 @@ void	init(char **argv, t_data *ap)
 void	alloc(t_data *ap)
 {
 	//ap->ti = (pthread_t *)malloc(sizeof(pthread_t) * ap->num_philo);
-	ap->array = (int *)malloc(sizeof(int) * ap->num_philo);
+	ap->array = (bool *)malloc(sizeof(bool) * ap->num_philo);
 	ap->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
 }
@@ -49,6 +49,12 @@ void	mutex_init(t_data *ap)
 	while (i < ap->num_philo)
 	{
 		ap->array[i] = i;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->array[i] = false;
 		i++;
 	}
 	i = 0;
@@ -99,6 +105,12 @@ void	init_personal_data(t_data *ap)
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].just_ate = false;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].is_eating = false;
 		i++;
 	}
 }
