@@ -13,25 +13,20 @@ void    eat(t_philo *philo)
 
 void	ft_sleep(t_philo *philo)
 {
+
 	print_event(philo, "is sleeping");
 	ft_usleep(philo->info->sleepin_time, philo->info);
 }
 
-/* void	check_death(t_philo *philo)
+void check_death(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
-	if (get_elapsed_time(philo->info) - philo->last_meal_time > philo->info->death_time)
-	{
-		philo->is_dead = true;
-		print_event(philo, "died");
-		pthread_mutex_unlock(&philo->info->lock);
-		pthread_join(philo->thread, NULL);
-		pthread_mutex_destroy(&philo->info->lock);
-		pthread_mutex_destroy(philo->info->fork);
-		cleanup_data(philo->info);
-	}
-	pthread_mutex_unlock(&philo->info->lock);
-} */
+    pthread_mutex_lock(&philo->info->lock);
+    size_t current_time = get_start_time();
+    size_t time_elapsed = current_time - philo->last_meal_time;
+    if (time_elapsed > philo->info->death_time)
+        philo->is_dead = true;
+    pthread_mutex_unlock(&philo->info->lock);
+}
 
 void	cleanup_data(t_data *ap)
 {

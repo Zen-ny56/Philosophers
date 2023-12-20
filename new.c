@@ -27,7 +27,12 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	while (1)
-	{	
+	{
+		if (philo->is_dead == true)
+		{
+			print_event(philo, "died");
+			exit(0);
+		}
 		get_a_table(philo);
 		r_u_on_the_list(philo);	
 		bon_appetit(philo);
@@ -60,10 +65,6 @@ void	get_a_table(t_philo *philo)
 
 void	r_u_on_the_list(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->write);
-	printf("philo %d lflag: %d\n", philo->id, *(philo->lflag));
-	printf("philo %d rflag: %d\n", philo->id, *(philo->rflag));
-	pthread_mutex_unlock(&philo->info->write);
 	if (*(philo->lflag) == philo->id && *(philo->rflag) == philo->id)
 		philo->is_eating = true;
 	else
