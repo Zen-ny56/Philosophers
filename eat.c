@@ -2,23 +2,20 @@
 
 void    eat(t_philo *philo)
 {
-	// pthread_mutex_lock(&philo->info->lock);
 	print_event(philo, "is eating");
-	philo->info->meal_times++;
-	philo->just_ate = true;
 	ft_usleep(philo->info->eatin_time, philo->info);
-	// pthread_mutex_unlock(&philo->info->lock);
 	philo->last_meal_time = 0;
 	philo->meals_eaten++;
 }
 
 void	ft_sleep(t_philo *philo)
 {
-
 	print_event(philo, "is sleeping");
 	ft_usleep(philo->info->sleepin_time, philo->info);
 }
-m{
+
+void	check_death(t_philo *philo)
+{
 	pthread_mutex_lock(&philo->info->lock);
 	size_t time_passed = get_start_time() - philo->info->start;
 	size_t time_s_lmeal = time_passed - philo->last_meal_time;

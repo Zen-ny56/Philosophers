@@ -20,7 +20,7 @@ void	init(char **argv, t_data *ap)
 
 void	alloc(t_data *ap)
 {
-	//ap->ti = (pthread_t *)malloc(sizeof(pthread_t) * ap->num_philo);
+	ap->available = (bool *)malloc(sizeof(bool) * ap->num_philo);
 	ap->array = (int *)malloc(sizeof(int) * ap->num_philo);
 	ap->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
@@ -58,6 +58,19 @@ void	mutex_init(t_data *ap)
 	{
 		ap->philos[i].lflag = &ap->array[i];
 		ap->philos[i].rflag = &ap->array[(i + 1) % ap->num_philo];
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->available[i] = true;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].lavailable = &ap->available[i];
+		ap->philos[i].ravailable = &ap->available[(i + 1) % ap->num_philo];
 		i++;
 	}
 }

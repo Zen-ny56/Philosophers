@@ -66,5 +66,5 @@ size_t	get_start_time(void)
 		write (2, "Error\n", 7);
 		return (0);
 	}
-	return ((tv.tv_sec * (size_t)1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * (size_t)1000) + (tv.tv_usec / (size_t)1000));
 }
