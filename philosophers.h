@@ -16,6 +16,8 @@ typedef struct s_data
 	size_t		eatin_time;
 	size_t		sleepin_time;
 	size_t		death_time;
+	pthread_t	monitor;
+	pthread_t	waiter;
 	t_philo		*philos;
 	int			*array;
 	int			num_philo;
@@ -25,7 +27,6 @@ typedef struct s_data
 	int			is_even;
 	int			dead_id;
 	bool		started;
-	bool		is_dead;
 	bool		*available;
 	pthread_mutex_t	lock;
 	pthread_mutex_t picking_first;
@@ -38,12 +39,12 @@ typedef struct s_data
 typedef struct s_philo
 {
 	pthread_t		thread;
-	pthread_t 		monitor;
 	size_t	last_meal_time;
 	int 		meals_eaten;
 	int				id;
 	int				*lflag;
 	int				*rflag;
+	bool			is_dead;
 	bool			is_eating;
 	bool			just_ate;
 	bool			is_sleeping;

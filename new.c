@@ -16,36 +16,17 @@ void	thread_process(t_data *ap)
 	while (i < ap->num_philo)
 	{
 		pthread_create(&ap->philos[i].thread, NULL, &routine, &ap->philos[i]);
-		pthread_create(&ap->philos[i].thread, NULL, &monitor, &ap->philos[i]);
 		i++;
 	}
+	pthread_create(&ap->monitor, NULL, &monitor, ap);
+	pthread_create(&ap->waiter, NULL, &waiter, ap);
 	i = 0;
 	while (i < ap->num_philo)
     {
         pthread_join(ap->philos[i].thread, NULL);
-		pthread_join(ap->philos[i].monitor, NULL);
 		printf("Joined thread %d\n", i);
         i++;
     }
-}
-
-void *monitor(void *arg)
-{
-    t_philo *philo = (t_philo *)arg;
-
-    while (1)
-    {
-		pthread_mutex_lock(&philo->p_data);
-        if (philo->last_meal_time > philo->info->death_time)
-        {
-			philo->info->dead_id = philo->id;
-			printf("%zu %d has died", get_start_time() - philo->info->start, philo->info->dead_id);
-		}
-		pthread_mutex_unlock(&philo->p_data);
-		if (philo->info->dead_id != 0)
-			exit(0);
-    }
-	return (NULL);
 }
 
 void	*routine(void *arg)
