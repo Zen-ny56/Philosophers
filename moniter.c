@@ -12,7 +12,7 @@ void   notify(t_philo *philo)
 	}
 }
 
-void    monitor(void *arg)
+void    *monitor(void *arg)
 {
     t_data *shared;
     t_philo *philos;
@@ -27,21 +27,22 @@ void    monitor(void *arg)
         i = 0;
         while (i < nb_philos)
         {
-            if (autopsy(&philos[i], shared) == 0)
+            if (autopsy(&philos[i]) == 0)
 			{
 				print_event(&philos[i], "died");
 				notify(&philos[i]);
-				return;
+				return (NULL);
 			}
             i++;
         }
 	}
+    return (NULL);
 }
 
-int     autopsy(t_philo *philo, t_data *shared)
+int     autopsy(t_philo *philo)
 {
     pthread_mutex_lock(&philo->p_data);
-    if (get_start_time() - philo->last_meal_time > get_death_time(philo) && shared->is_dead == false)
+    if (get_start_time() - philo->last_meal_time > get_death_time(philo) && philo->is_dead == false)
     {
         philo->is_dead = true;
         pthread_mutex_unlock(&philo->p_data);

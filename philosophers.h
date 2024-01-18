@@ -86,5 +86,8 @@ void	bon_appetit(t_philo *philo);
 int		lock_mutex(t_philo *philo);
 void	print_values(t_philo *philo);
 void	*monitor(void *arg);
+void   	notify(t_philo *philo);
+int     autopsy(t_philo *philo);
+size_t    get_death_time(t_philo *philo);
 
 #endif

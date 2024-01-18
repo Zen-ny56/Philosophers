@@ -19,7 +19,7 @@ void	thread_process(t_data *ap)
 		i++;
 	}
 	pthread_create(&ap->monitor, NULL, &monitor, ap);
-	pthread_create(&ap->waiter, NULL, &waiter, ap);
+	//pthread_create(&ap->waiter, NULL, &waiter, ap);
 	i = 0;
 	while (i < ap->num_philo)
     {
