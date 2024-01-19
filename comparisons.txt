@@ -26,6 +26,8 @@
 	}
 // Ready for review;
 
-5. Make sure philo is just thinking
+5a. Make sure philo is just thinking when it's full
 
-6. Set flag for greedy
+5b. Build routine for 6th parameter.
+
+6. Set flag for greedy // See if needed
