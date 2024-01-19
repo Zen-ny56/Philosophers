@@ -67,7 +67,7 @@ void	get_a_table(t_philo *philo)
 			pthread_mutex_lock(philo->l_fork);
 			pthread_mutex_lock(philo->r_fork);
 			*(philo->rflag) = philo->id;
-			*(philo->lflag) = philo->id;
+			*(philo->lflag)= philo->id;
 			set_cutlery(philo);
 			print_event(philo, "has taken a fork");
 			print_event(philo, "has taken a fork");

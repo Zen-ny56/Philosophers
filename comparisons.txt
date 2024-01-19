@@ -1,0 +1,27 @@
+1. while (i < shared->num_philo && /*shared->full_philos < shared->num_philo*/)
+		{
+			if (weigh_in(&philo[i]) == 0)
+			{
+				pthread_mutex_lock(&shared->lock);
+				shared->full_philos++;
+				pthread_mutex_unlock(&shared->lock);
+			}
+			i++;
+		}
+
+2. if ((*(philo->ravailable) == true) && (*(philo->lavailable) == true) 
+		&& (philo->full == false))
+
+3. 	if (philo->is_eating == true)
+
+4. void	notify(t_philo *philo)
+{
+	int i = 0;
+	while (i < philo->info->num_philo)
+	{
+		pthread_mutex_lock(&philo->p_data);
+		philo->is_dead = true;
+		pthread_mutex_unlock(&philo->p_data);
+		i++;
+	}
+    // Add i;
