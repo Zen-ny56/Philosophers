@@ -98,4 +98,8 @@ void	update_meal_count(t_philo *philo);
 void	update_meal_time(t_philo *philo);
 int		avai_fork(philo);
 int		satisfied(philo);
+void	pickup_coffin(t_philo *philo);
+void	timeofdeath(t_philo *philo);
+void	second_linen(t_philo *philo);
+
 #endif

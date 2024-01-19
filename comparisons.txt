@@ -7,12 +7,12 @@
 				pthread_mutex_unlock(&shared->lock);
 			}
 			i++;
-		} // To be reviewed
+		} // Ready for review
 
 2. if ((*(philo->ravailable) == true) && (*(philo->lavailable) == true) 
-		&& (philo->full == false))
+		&& (philo->full == false)) // Ready for review
 
-3. 	if (philo->is_eating == true)
+3. 	if (philo->is_eating == true) // Ready for review
 
 4. void	notify(t_philo *philo)
 {
@@ -24,4 +24,8 @@
 		pthread_mutex_unlock(&philo->p_data);
 		i++;
 	}
-    // Add i;
+// Ready for review;
+
+5. Make sure philo is just thinking
+
+6. Set flag for greedy

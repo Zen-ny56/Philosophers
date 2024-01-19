@@ -1,16 +1,11 @@
 #include "philosophers.h"
 
-void	notify(t_philo *philo)
-{
-	int i = 0;
-	while (i < philo->info->num_philo)
-	{
-		pthread_mutex_lock(&philo->p_data);
-		philo->is_dead = true;
-		pthread_mutex_unlock(&philo->p_data);
-		i++;
-	}
-}
+// void	notify(t_philo *philo)
+// {
+// 	pthread_mutex_lock(&philo->info->data);
+// 	philo[i].is_dead = true;
+// 	pthread_mutex_unlock(&philo[i].p_data);
+// }
 
 void	*monitor(void *arg)
 {
@@ -29,8 +24,7 @@ void	*monitor(void *arg)
 		{
 			if (autopsy(&philos[i]) == 0)
 			{
-				print_event(&philos[i], "died");
-				notify(&philos[i]);
+				second_linen(&philos[i]);
 				return (NULL);
 			}
 			i++;
@@ -42,9 +36,9 @@ void	*monitor(void *arg)
 int	autopsy(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->p_data);
-	if (get_start_time() - philo->last_meal_time > get_death_time(philo) && philo->is_dead == false)
+	if (get_start_time() - philo->last_meal_time > get_death_time(philo))
 	{
-		philo->is_dead = true;
+		pickup_coffin(philo);
 		pthread_mutex_unlock(&philo->p_data);
 		return (0);
 	}
@@ -77,7 +71,7 @@ void	*waiter(void *arg)
 		}
 		pthread_mutex_unlock(&shared->lock);
 	}
-	return (NULL);  
+	return (NULL);
 }
 
 int	weigh_in(t_philo *philo)

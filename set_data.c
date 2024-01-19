@@ -39,3 +39,10 @@ void    bri_the_check(t_philo *philo)
 	philo->is_eating = false;
 	pthread_mutex_unlock(&philo->p_data);
 }
+
+void	pickup_coffin(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->lock);
+	philo->info->dead_id = philo->id;
+	pthread_mutex_unlock(&philo->info->lock);
+}
