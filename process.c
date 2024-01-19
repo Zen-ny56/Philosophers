@@ -47,8 +47,7 @@ void	get_a_table(t_philo *philo)
 
 	if (philo->id % 2 > 0)
 	{
-		if ((*(philo->ravailable) == true) && (*(philo->lavailable) == true) 
-			&& (philo->full == false))
+		if (avai_fork(philo) == 0)
 		{
 	    	pthread_mutex_lock(philo->r_fork);
 			pthread_mutex_lock(philo->l_fork);
@@ -61,8 +60,7 @@ void	get_a_table(t_philo *philo)
 	}
 	else
 	{
-		if ((*(philo->lavailable) == true) && (*(philo->ravailable) == true)
-			&& (philo->full == false))
+		if (avai_fork(philo) == 0)
 		{
 			pthread_mutex_lock(philo->l_fork);
 			pthread_mutex_lock(philo->r_fork);

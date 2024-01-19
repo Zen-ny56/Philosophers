@@ -96,4 +96,6 @@ void 	set_cutlery(t_philo *philo);
 void    bri_the_check(t_philo *philo);
 void	update_meal_count(t_philo *philo);
 void	update_meal_time(t_philo *philo);
+int		avai_fork(philo);
+int		satisfied(philo);
 #endif
