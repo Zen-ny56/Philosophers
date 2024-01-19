@@ -6,7 +6,7 @@ void	thread_process(t_data *ap)
 
 	i = 0;
 	init_personal_data(ap);
-	ap->start = get_start_time();
+	ap->start = get_time();
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].last_meal_time = ap->start;
@@ -54,9 +54,7 @@ void	get_a_table(t_philo *philo)
 			pthread_mutex_lock(philo->l_fork);
 			*(philo->rflag) = philo->id;
 			*(philo->lflag) = philo->id;
-			*(philo->ravailable) = false;
-			*(philo->lavailable) = false;
-			philo->is_eating = true;
+			set_cutlery(philo);
 			print_event(philo, "has taken a fork");
 			print_event(philo, "has taken a fork");
 		}
@@ -69,10 +67,8 @@ void	get_a_table(t_philo *philo)
 			pthread_mutex_lock(philo->l_fork);
 			pthread_mutex_lock(philo->r_fork);
 			*(philo->rflag) = philo->id;
-			*(philo->lflag)= philo->id;
-			*(philo->lavailable) = false;
-			*(philo->ravailable) = false;
-			philo->is_eating = true;
+			*(philo->lflag) = philo->id;
+			set_cutlery(philo);
 			print_event(philo, "has taken a fork");
 			print_event(philo, "has taken a fork");
 		}
@@ -94,17 +90,13 @@ void	drop_forks(t_philo *philo)
 {
 	if (philo->id % 2 > 0)
 	{
-		philo->is_eating = false;
-		*(philo->lavailable) = true;
-		*(philo->ravailable) = true;
+		bri_the_check(philo);
 		pthread_mutex_unlock(philo->l_fork);
 		pthread_mutex_unlock(philo->r_fork);
 	}
 	else if (philo->id % 2 == 0)
 	{
-		philo->is_eating = false;
-		*(philo->ravailable) = true;
-		*(philo->lavailable) = true;
+		bri_the_check(philo);
 		pthread_mutex_unlock(philo->r_fork);
 		pthread_mutex_unlock(philo->l_fork);
 	}

@@ -4,8 +4,8 @@ void    eat(t_philo *philo)
 {
 	print_event(philo, "is eating");
 	ft_usleep(philo->info->eatin_time, philo->info);
-	philo->last_meal_time = get_start_time();
-	philo->meals_eaten++;
+	update_meal_time(philo);
+	update_meal_count(philo);
 }
 
 void	ft_sleep(t_philo *philo)

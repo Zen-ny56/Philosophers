@@ -20,11 +20,10 @@ void	*monitor(void *arg)
 
 	shared = (t_data *)arg;
 	philos = shared->philos;
-	int i = 0;
 	nb_philos = shared->num_philo;
 	while (1)
 	{
-		i = 0;
+		int i = 0;
 		while (i < nb_philos)
 		{
 			if (autopsy(&philos[i]) == 0)
@@ -42,7 +41,7 @@ void	*monitor(void *arg)
 int	autopsy(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->p_data);
-	if (get_start_time() - philo->last_meal_time > get_death_time(philo) && philo->is_dead == false)
+	if (get_time() - philo->last_meal_time > get_death_time(philo) && philo->is_dead == false)
 	{
 		philo->is_dead = true;
 		pthread_mutex_unlock(&philo->p_data);
