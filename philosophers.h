@@ -21,7 +21,8 @@ typedef struct s_data
 	t_philo		*philos;
 	int			*array;
 	int			num_philo;
-	int			meal_times;
+	int			max_meals;
+	int			full_philos;
 	int			time_eat;
 	int			time_death;
 	int			is_even;
@@ -48,6 +49,7 @@ typedef struct s_philo
 	bool			is_eating;
 	bool			just_ate;
 	bool			is_sleeping;
+	bool			full;
 	bool			*lavailable;
 	bool			*ravailable;
 	pthread_mutex_t	p_data;
@@ -89,5 +91,6 @@ void	*monitor(void *arg);
 void   	notify(t_philo *philo);
 int     autopsy(t_philo *philo);
 size_t    get_death_time(t_philo *philo);
+void   *waiter(void *arg);
 
 #endif

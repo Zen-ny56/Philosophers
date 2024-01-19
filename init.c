@@ -7,14 +7,15 @@ void	init(char **argv, t_data *ap)
 	ap->eatin_time = (size_t)atoi(argv[3]);
 	ap->sleepin_time = (size_t)atoi(argv[4]);
 	if (argv[5] != NULL)
-		ap->meal_times = atoi(argv[5]);
+		ap->max_meals = atoi(argv[5]);
 	else
-		ap->meal_times = -1;
+		ap->max_meals = -1;
 	ap->time_death = 0;
 	ap->time_eat = 0;
 	ap->is_even = -1;
 	ap->started = false;
 	ap->dead_id = 0;
+	ap->full_philos = 0;
 }
 
 void	alloc(t_data *ap)
@@ -119,6 +120,12 @@ void	init_personal_data(t_data *ap)
 	while (i < ap->num_philo)
 	{
 		ap->philos[i].is_dead = false;
+		i++;
+	}
+	i = 0;
+	while (i < ap->num_philo)
+	{
+		ap->philos[i].full = false;
 		i++;
 	}
 }
