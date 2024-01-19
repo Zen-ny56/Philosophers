@@ -31,3 +31,5 @@
 5b. Build routine for 6th parameter.
 
 6. Set flag for greedy // See if needed
+
+7. Check if a variables are shared by threads or changed by threads and set mutex_locks accordingly

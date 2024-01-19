@@ -49,4 +49,5 @@ int	satisfied(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->p_data);
+	return (0);
 }

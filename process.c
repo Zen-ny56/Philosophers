@@ -47,7 +47,7 @@ void	get_a_table(t_philo *philo)
 
 	if (philo->id % 2 > 0)
 	{
-		if (avai_fork(philo) == 0)
+		if (avai_fork(philo) == 0 && satisfied(philo) == 0)
 		{
 	    	pthread_mutex_lock(philo->r_fork);
 			pthread_mutex_lock(philo->l_fork);
@@ -60,7 +60,7 @@ void	get_a_table(t_philo *philo)
 	}
 	else
 	{
-		if (avai_fork(philo) == 0)
+		if (avai_fork(philo) == 0 && satisfied(philo) == 0)
 		{
 			pthread_mutex_lock(philo->l_fork);
 			pthread_mutex_lock(philo->r_fork);
@@ -75,13 +75,15 @@ void	get_a_table(t_philo *philo)
 
 void	bon_appetit(t_philo *philo)
 {
-	if (philo->is_eating == true)
+	if (philo->is_eating == true )
 	{
 		eat(philo);
 		drop_forks(philo);
 		ft_sleep(philo);
 		print_event(philo, "is thinking");
 	}
+	else
+		print_event(philo, "is thinking");
 }
 
 void	drop_forks(t_philo *philo)
