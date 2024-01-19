@@ -82,7 +82,7 @@ void	bon_appetit(t_philo *philo)
 		ft_sleep(philo);
 		print_event(philo, "is thinking");
 	}
-	else
+	else if (satisfied(philo) == 1)
 		print_event(philo, "is thinking");
 }
 
