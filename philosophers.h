@@ -82,7 +82,7 @@ void	init_personal_data(t_data *ap);
 void	drop_forks(t_philo *philo);
 void	check_values(t_philo *philo);
 void	registration(t_philo *philo);
-void		r_u_on_the_list(t_philo *philo);
+void	r_u_on_the_list(t_philo *philo);
 void	get_a_table(t_philo *philo);
 void	bon_appetit(t_philo *philo);
 int		lock_mutex(t_philo *philo);
@@ -90,7 +90,7 @@ void	print_values(t_philo *philo);
 void	*monitor(void *arg);
 void   	notify(t_philo *philo);
 int     autopsy(t_philo *philo);
-size_t    get_death_time(t_philo *philo);
+size_t	get_death_time(t_philo *philo);
 void   *waiter(void *arg);
-
+int		weigh_in(t_philo *philo);
 #endif
