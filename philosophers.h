@@ -101,5 +101,8 @@ int		satisfied(t_philo *philo);
 void	pickup_coffin(t_philo *philo);
 void	timeofdeath(t_philo *philo);
 void	second_linen(t_philo *philo);
+void 	free_memory(t_data *data);
+int		oj(t_philo *philo);
+int		ru_full(t_data *info);
 
 #endif

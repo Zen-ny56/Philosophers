@@ -20,13 +20,7 @@ void	thread_process(t_data *ap)
 	}
 	pthread_create(&ap->monitor, NULL, &monitor, ap);
 	pthread_create(&ap->waiter, NULL, &waiter, ap);
-	i = 0;
-	while (i < ap->num_philo)
-    {
-        pthread_join(ap->philos[i].thread, NULL);
-		printf("Joined thread %d\n", i);
-        i++;
-    }
+	join_threads(ap);
 }
 
 void	*routine(void *arg)
@@ -36,6 +30,8 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
+		if (oj(philo) == 1 || ru_full(philo) == 1)
+			break;
 		get_a_table(philo);
 		bon_appetit(philo);
 	}

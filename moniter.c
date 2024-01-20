@@ -46,6 +46,8 @@ void	*waiter(void *arg)
 	while (1)
 	{
 		int i = 0;
+		if (ru_full(shared) == 1 || oj(shared) == 1)
+			return (NULL);
 		while (i < shared->num_philo)
 		{
 			if (weigh_in(&philo[i]) == 0)
@@ -56,13 +58,6 @@ void	*waiter(void *arg)
 			}
 			i++;
 		}
-		pthread_mutex_lock(&shared->lock);
-		if (shared->full_philos >= shared->num_philo)
-		{
-			pthread_mutex_unlock(&shared->lock);
-			break;
-		}
-		pthread_mutex_unlock(&shared->lock);
 	}
 	return (NULL);
 }
