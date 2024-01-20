@@ -30,7 +30,7 @@
 
 5b. Build routine for 6th parameter.
 
-6. Free up memory and Join threads.
+6. Free up memory and join threads.
 
 -+******* Set flag for greedy // See if needed
 

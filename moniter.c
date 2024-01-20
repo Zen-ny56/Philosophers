@@ -36,7 +36,7 @@ void	*monitor(void *arg)
 int	autopsy(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->p_data);
-	if (get_start_time() - philo->last_meal_time > get_death_time(philo))
+	if (get_time() - philo->last_meal_time > get_death_time(philo))
 	{
 		pickup_coffin(philo);
 		pthread_mutex_unlock(&philo->p_data);
