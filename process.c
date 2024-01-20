@@ -22,6 +22,7 @@ void	thread_process(t_data *ap)
 	pthread_create(&ap->waiter, NULL, &waiter, ap);
 	if (terminate(ap) == 1)
 	{
+		printf("Error: program failed\n");
 		join_threads(ap);
 		free_memory(ap);
 	}

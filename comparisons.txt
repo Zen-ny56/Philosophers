@@ -28,7 +28,7 @@
 
 5a. Make sure philo is just thinking when it's full // Ready for review
 
-5b. Fix routine to include optional parameter.
+5b. Fix routine to include optional parameter. // Ready for review
 
 6. Free up memory and join threads. // Ready for review
 
