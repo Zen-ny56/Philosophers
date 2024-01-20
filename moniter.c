@@ -13,6 +13,11 @@ void	*monitor(void *arg)
 	while (1)
 	{
 		i = 0;
+		if (ru_full(shared) == 1)
+		{
+			process_kill(shared);
+			return (NULL);
+		}
 		while (i < nb_philos)
 		{
 			if (autopsy(&philos[i]) == 0)
@@ -44,6 +49,12 @@ void	*waiter(void *arg)
 {
 	t_data *shared = (t_data *)arg;
 	t_philo *philo = shared->philos;
+	
+	if (shared->max_meals == -1)
+	{
+		process_kill(shared);
+		return (NULL);
+	}
 	while (1)
 	{
 		int i = 0;

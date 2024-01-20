@@ -19,6 +19,8 @@ void	set_cutlery(t_philo *philo)
 
 void	update_meal_count(t_philo *philo)
 {
+	if (philo->info->max_meals == -1)
+		return ;
 	pthread_mutex_lock(&philo->p_data);
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->p_data);
