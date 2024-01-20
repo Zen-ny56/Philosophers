@@ -1,12 +1,5 @@
 #include "philosophers.h"
 
-// void	notify(t_philo *philo)
-// {
-// 	pthread_mutex_lock(&philo->info->data);
-// 	philo[i].is_dead = true;
-// 	pthread_mutex_unlock(&philo[i].p_data);
-// }
-
 void	*monitor(void *arg)
 {
 	t_data *shared;
