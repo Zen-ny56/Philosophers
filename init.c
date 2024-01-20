@@ -16,6 +16,7 @@ void	init(char **argv, t_data *ap)
 	ap->started = false;
 	ap->dead_id = 0;
 	ap->full_philos = 0;
+	ap->terminate = 0;
 }
 
 void	alloc(t_data *ap)

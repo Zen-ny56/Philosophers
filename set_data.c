@@ -46,3 +46,10 @@ void	pickup_coffin(t_philo *philo)
 	philo->info->dead_id = philo->id;
 	pthread_mutex_unlock(&philo->info->lock);
 }
+
+void	process_kill(t_data *info)
+{
+	pthread_mutex_lock(&info->lock);
+	info->terminate++;
+	pthread_mutex_unlock(&info->lock);
+}

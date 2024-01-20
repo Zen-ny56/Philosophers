@@ -20,6 +20,7 @@ void	free_memory(t_data *info)
 	pthread_mutex_destroy(&info->picking_first);
 	free(info->array);
 	free(info->available);
+	free(info);
 	exit(0);
 }
 

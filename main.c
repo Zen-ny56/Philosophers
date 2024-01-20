@@ -15,5 +15,4 @@ int main(int ac, char **av)
 	alloc(ap);
 	mutex_init(ap);
 	thread_process(ap);
-	return (0);
 }

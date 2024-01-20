@@ -20,6 +20,7 @@ typedef struct s_data
 	pthread_t	waiter;
 	t_philo		*philos;
 	int			*array;
+	int			terminate;
 	int			num_philo;
 	int			max_meals;
 	int			full_philos;
@@ -104,5 +105,8 @@ void	second_linen(t_philo *philo);
 void 	free_memory(t_data *data);
 int		oj(t_philo *philo);
 int		ru_full(t_data *info);
+void	process_kill(t_data *info);
+int 	terminate(t_data *info);
+void	join_threads(t_data *info);
 
 #endif

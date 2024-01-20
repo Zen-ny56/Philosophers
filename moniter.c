@@ -18,6 +18,7 @@ void	*monitor(void *arg)
 			if (autopsy(&philos[i]) == 0)
 			{
 				second_linen(&philos[i]);
+				process_kill(shared);
 				return (NULL);
 			}
 			i++;
@@ -46,8 +47,11 @@ void	*waiter(void *arg)
 	while (1)
 	{
 		int i = 0;
-		if (ru_full(shared) == 1 || oj(shared) == 1)
+		if (ru_full(shared) == 1 || oj(philo) == 1)
+		{
+			process_kill(shared);
 			return (NULL);
+		}
 		while (i < shared->num_philo)
 		{
 			if (weigh_in(&philo[i]) == 0)

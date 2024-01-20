@@ -28,31 +28,10 @@
 
 5a. Make sure philo is just thinking when it's full // Ready for review
 
-5b. Build routine for 6th parameter.
+5b. Fix routine to include optional parameter.
 
-6. Free up memory and join threads.
+6. Free up memory and join threads. // Ready for review
 
 -+******* Set flag for greedy // See if needed
 
 -+*******. Check if a variables are shared by threads or changed by threads and set mutex_locks accordingly
-
-What do I have 2 free & Mutexes to destroy & threads to join ?
-
-Free
-1. Data Struct
-2. ap->available
-3. ap->array
-4. ap->fork
-5. ap->philos
-
-Mutexes
-1.lock
-2.write
-3.p_data
-4.picking_first
-5.Array of forks
-
-threads
-1.Array of philo threads
-2.Monitor thread
-3.Waiter thread

@@ -55,3 +55,15 @@ int	ru_full(t_data *info)
 	pthread_mutex_unlock(&info->lock);
 	return (0);
 }
+
+int terminate(t_data *info)
+{
+	pthread_mutex_lock(&info->lock);
+	if (info->terminate == 3)
+	{
+		pthread_mutex_unlock(&info->lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&info->lock);
+	return (0);
+}
