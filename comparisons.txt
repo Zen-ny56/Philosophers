@@ -1,37 +1,38 @@
-1. while (i < shared->num_philo && /*shared->full_philos < shared->num_philo*/)
-		{
-			if (weigh_in(&philo[i]) == 0)
-			{
-				pthread_mutex_lock(&shared->lock);
-				shared->full_philos++;
-				pthread_mutex_unlock(&shared->lock);
-			}
-			i++;
-		} // Ready for review
-
-2. if ((*(philo->ravailable) == true) && (*(philo->lavailable) == true) 
-		&& (philo->full == false)) // Ready for review
-
-3. 	if (philo->is_eating == true) // Ready for review
-
-4. void	notify(t_philo *philo)
+****** 
+1. 
+int	autopsy(t_philo *philo)
 {
-	int i = 0;
-	while (i < philo->info->num_philo)
+	pthread_mutex_lock(&philo->p_data);
+	if (get_time() - philo->last_meal_time > get_death_time(philo))
 	{
-		pthread_mutex_lock(&philo->p_data);
-		philo->is_dead = true;
+		pickup_coffin(philo);
 		pthread_mutex_unlock(&philo->p_data);
-		i++;
+		return (0);
 	}
-// Ready for review;
+	pthread_mutex_unlock(&philo->p_data);
+	return (1);
+}
 
-5a. Make sure philo is just thinking when it's full // Ready for review
+void	pickup_coffin(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->info->lock);
+	philo->info->dead_id = philo->id;
+	pthread_mutex_unlock(&philo->info->lock);
+}
 
-5b. Fix routine to include optional parameter. // Ready for review
+******
 
-6. Free up memory and join threads. // Ready for review
+2.
+// void	second_linen(t_philo *philo)
+// {
+// 	if (philo->info->dead_id == philo->id)
+// 		timeofdeath(philo);
+// 	pthread_mutex_unlock(&philo->info->lock);
+// }
 
--+******* Set flag for greedy // See if needed
-
--+*******. Check if a variables are shared by threads or changed by threads and set mutex_locks accordingly
+if (autopsy(&philos[i]) == 0)
+{
+	second_linen(&philos[i]);
+	process_kill(shared);
+	return (NULL);
+}

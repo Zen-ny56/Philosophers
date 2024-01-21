@@ -22,7 +22,7 @@ void	*monitor(void *arg)
 		{
 			if (autopsy(&philos[i]) == 0)
 			{
-				second_linen(&philos[i]);
+				timeofdeath(&philos[i]);
 				process_kill(shared);
 				return (NULL);
 			}

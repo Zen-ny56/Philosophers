@@ -42,5 +42,4 @@ void	timeofdeath(t_philo *philo)
 	pthread_mutex_lock(&philo->info->write);
 	printf("%zu %d philo has died\n", time - philo->info->start, philo->info->dead_id);
 	pthread_mutex_unlock(&philo->info->write);
-	exit(0);
 }

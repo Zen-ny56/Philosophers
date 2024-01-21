@@ -12,13 +12,12 @@ int avai_fork(t_philo *philo)
 	return (1);
 }
 
-void	second_linen(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->info->lock);
-	if (philo->info->dead_id == philo->id)
-		timeofdeath(philo);
-	pthread_mutex_unlock(&philo->info->lock);
-}
+// void	second_linen(t_philo *philo)
+// {
+// 	if (philo->info->dead_id == philo->id)
+// 		timeofdeath(philo);
+// 	pthread_mutex_unlock(&philo->info->lock);
+// }
 
 int	satisfied(t_philo *philo)
 {
@@ -35,7 +34,7 @@ int	satisfied(t_philo *philo)
 int	oj(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->info->lock);
-	if (philo->info->dead_id != 0)
+	if (philo->info->dead_id > 0)
 	{
 		pthread_mutex_unlock(&philo->info->lock);
 		return (1);
