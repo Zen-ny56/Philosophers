@@ -18,8 +18,10 @@ void	thread_process(t_data *ap)
 		pthread_create(&ap->philos[i].thread, NULL, &routine, &ap->philos[i]);
 		i++;
 	}
-	pthread_create(&ap->monitor, NULL, &monitor, ap);
-	pthread_create(&ap->waiter, NULL, &waiter, ap);
+	int ret = pthread_create(&ap->monitor, NULL, &monitor, ap);
+	int second_return = pthread_create(&ap->waiter, NULL, &waiter, ap);
+	printf("ret = %d\n", ret);
+	printf("second_return = %d\n", second_return);
 	if (terminate(ap) == 1)
 	{
 		printf("Error: program failed\n");
@@ -32,7 +34,6 @@ void	thread_process(t_data *ap)
 void	*routine(void *arg)
 {
 	t_philo	*philo;
-
 	philo = (t_philo *)arg;
 	while (1)
 	{
