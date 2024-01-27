@@ -10,9 +10,9 @@ void	init(char **argv, t_data *ap)
 		ap->max_meals = atoi(argv[5]);
 	else
 		ap->max_meals = -1;
-	ap->time_death = 0;
-	ap->time_eat = 0;
-	ap->is_even = -1;
+	// ap->time_death = 0;
+	// ap->time_eat = 0;
+	// ap->is_even = -1;
 	ap->started = false;
 	ap->dead_id = 0;
 	ap->full_philos = 0;
@@ -22,9 +22,17 @@ void	init(char **argv, t_data *ap)
 void	alloc(t_data *ap)
 {
 	ap->available = (bool *)malloc(sizeof(bool) * ap->num_philo);
-	ap->array = (int *)malloc(sizeof(int) * ap->num_philo);
-	ap->fork = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
+	if (ap->available == NULL)
+		return ;
+	ap->fork = (int *)malloc(sizeof(int) * ap->num_philo);
+	if (ap->fork == NULL)
+		return ;
+	ap->fork_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
+	if (ap->fork_lock == NULL)
+		return ;
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
+	if (ap->philos == NULL)
+		return ;
 }
 
 void	mutex_init(t_data *ap)
@@ -34,44 +42,22 @@ void	mutex_init(t_data *ap)
 	i = 0;
 	pthread_mutex_init(&ap->lock, NULL);
 	pthread_mutex_init(&ap->write, NULL);
-	pthread_mutex_init(&ap->philos->p_data, NULL);
-	pthread_mutex_init(&ap->picking_first, NULL);
 	while (i < ap->num_philo)
 	{
-		pthread_mutex_init(&ap->fork[i], NULL);
+		ap->fork[i] = 0;
+		ap->available[i] = true;
+		pthread_mutex_init(&ap->fork_lock[i], NULL);
+		pthread_mutex_init(&ap->philos[i].a_lock, NULL);
+		pthread_mutex_init(&ap->philos[i].mlt_lock, NULL);
+		pthread_mutex_init(&ap->philos[i].mlc_lock, NULL);
 		i++;
 	}
-	i = 0;
 	while (i < ap->num_philo)
 	{
+		ap->philos[i].l_lock = &ap->fork_lock[i];
+		ap->philos[i].r_lock = &ap->fork_lock[(i + 1) % ap->num_philo];
 		ap->philos[i].l_fork = &ap->fork[i];
 		ap->philos[i].r_fork = &ap->fork[(i + 1) % ap->num_philo];
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->array[i] = 0;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].lflag = &ap->array[i];
-		ap->philos[i].rflag = &ap->array[(i + 1) % ap->num_philo];
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->available[i] = true;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].lavailable = &ap->available[i];
-		ap->philos[i].ravailable = &ap->available[(i + 1) % ap->num_philo];
 		i++;
 	}
 }
@@ -85,47 +71,9 @@ void	init_personal_data(t_data *ap)
 	{
 		ap->philos[i].id = i + 1;
 		ap->philos[i].info = ap;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
 		ap->philos[i].meals_eaten = 0;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
 		ap->philos[i].last_meal_time = 0;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].is_sleeping = false;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].just_ate = false;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
-		ap->philos[i].is_eating = false;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
 		ap->philos[i].is_dead = false;
-		i++;
-	}
-	i = 0;
-	while (i < ap->num_philo)
-	{
 		ap->philos[i].full = false;
 		i++;
 	}

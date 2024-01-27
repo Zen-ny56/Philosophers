@@ -49,7 +49,10 @@ void	check_digit(char **av)
 		while (av[i][k] != '\0')
 		{
 			if (ft_isdigit(av[i][k]) == 0)
+			{
+				printf("Not a digit\n"); // write a discritive error message
 				exit(1);
+			}
 			k++;
 		}
 		i++;

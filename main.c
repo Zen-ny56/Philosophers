@@ -10,9 +10,13 @@ int main(int ac, char **av)
 		return (1);
 	}
 	parse(av);
+	printf("Parsing done\n");
 	ap = (t_data *)malloc(sizeof(t_data) * 1);
 	init(av, ap);
+	printf("Init done\n");
 	alloc(ap);
 	mutex_init(ap);
+	printf("Mutex init done\n");
 	thread_process(ap);
+	printf("asdfsa init done\n");
 }

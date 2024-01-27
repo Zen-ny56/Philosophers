@@ -29,7 +29,7 @@ size_t	get_time(void)
 	if (gettimeofday(&tv, NULL))
 	{
 		write (2, "Error\n", 7);
-		return (0);
+		exit(1);
 	}
 	return ((tv.tv_sec * (size_t)1000) + (tv.tv_usec / (size_t)1000));
 }

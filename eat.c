@@ -2,7 +2,6 @@
 
 void    eat(t_philo *philo)
 {
-	print_event(philo, "is eating");
 	ft_usleep(philo->info->eatin_time, philo->info);
 	update_meal_time(philo);
 	update_meal_count(philo);

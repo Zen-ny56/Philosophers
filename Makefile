@@ -6,7 +6,7 @@ OBJ = $(SRCS:.c=.o)
 
 CC = gcc
 
-CFLAGS = -Wall -Werror -Wextra -Iheader -lpthread
+CFLAGS =  -Wall -Werror -Werror -Iheader -lpthread
 
 all: $(NAME)
 

@@ -19,20 +19,19 @@ typedef struct s_data
 	pthread_t	monitor;
 	pthread_t	waiter;
 	t_philo		*philos;
-	int			*array;
+	int			*fork;
 	int			terminate;
 	int			num_philo;
 	int			max_meals;
 	int			full_philos;
-	int			time_eat;
-	int			time_death;
-	int			is_even;
+	// int			time_eat;
+	// int			time_death;
+	// int			is_even;
 	int			dead_id;
 	bool		started;
-	bool		*available;
+	bool		*available; 
 	pthread_mutex_t	lock;
-	pthread_mutex_t picking_first;
-	pthread_mutex_t *fork;
+	pthread_mutex_t *fork_lock;
 	pthread_mutex_t write;
 	size_t			start;
 }
@@ -40,22 +39,24 @@ typedef struct s_data
 
 typedef struct s_philo
 {
+	int				id;
 	pthread_t		thread;
 	size_t	last_meal_time;
 	int 		meals_eaten;
-	int				id;
-	int				*lflag;
-	int				*rflag;
+	int				*l_fork;
+	int				*r_fork;
 	bool			is_dead;
-	bool			is_eating;
-	bool			just_ate;
-	bool			is_sleeping;
+	// bool			is_dini;
+	// bool			is_sleeping;
+	// bool			just_ate;
 	bool			full;
-	bool			*lavailable;
-	bool			*ravailable;
-	pthread_mutex_t	p_data;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t *l_fork;
+	// bool			*la;
+	// bool			*ra;
+	pthread_mutex_t	mlt_lock;
+	pthread_mutex_t	a_lock;
+	pthread_mutex_t mlc_lock;
+	pthread_mutex_t	*r_lock;
+	pthread_mutex_t *l_lock;
 	t_data			*info;
 }
 		t_philo;
@@ -108,5 +109,10 @@ int		ru_full(t_data *info);
 void	process_kill(t_data *info);
 int 	terminate(t_data *info);
 void	join_threads(t_data *info);
+void   drop_right(t_philo *philo);
+void   drop_left(t_philo *philo);
+void  drop_forks(t_philo *philo);
+void pick_left(t_philo *philo);
+void pick_right(t_philo *philo);
 
 #endif

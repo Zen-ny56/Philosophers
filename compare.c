@@ -3,8 +3,10 @@
 int avai_fork(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->p_data);
-	if (*(philo->lavailable) == true && *(philo->ravailable) == true)
+	if (*(philo->la) == true && *(philo->ra) == true)
 	{
+		pthread_mutex_lock(philo->l_fork);
+		pthread_mutex_lock(philo->r_fork);
 		pthread_mutex_unlock(&philo->p_data);
 		return (0);
 	}
