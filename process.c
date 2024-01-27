@@ -39,7 +39,10 @@ void	*routine(void *arg)
 		{
 			eat(philo);
 			drop_forks(philo);
+			ft_sleep(philo);
+			print_event(philo, "is thinking");
 		}
+		print_event(philo, "is thinking");
 	}
 	return (NULL);
 }
@@ -129,6 +132,7 @@ void   drop_right(t_philo *philo)
 	philo->r_fork = 0;
 	pthread_mutex_unlock(philo->r_lock);
 }
+
 // void	bon_appetit(t_philo *philo)
 // {
 // 	eat(philo);

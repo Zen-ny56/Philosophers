@@ -34,14 +34,14 @@ void	*monitor(void *arg)
 
 int	autopsy(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->p_data);
+	pthread_mutex_lock(&philo->death_lock);
 	if (get_time() - philo->last_meal_time > get_death_time(philo))
 	{
 		pickup_coffin(philo);
-		pthread_mutex_unlock(&philo->p_data);
+		pthread_mutex_unlock(&philo->death_lock);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->p_data);
+	pthread_mutex_unlock(&philo->death_lock);
 	return (1);
 }
 

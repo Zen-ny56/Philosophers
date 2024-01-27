@@ -49,7 +49,7 @@ void	pickup_coffin(t_philo *philo)
 
 void	process_kill(t_data *info)
 {
-	pthread_mutex_lock(&info->lock);
+	pthread_mutex_lock(&info->t_lock);
 	info->terminate++;
-	pthread_mutex_unlock(&info->lock);
+	pthread_mutex_unlock(&info->t_lock);
 }

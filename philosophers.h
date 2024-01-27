@@ -29,7 +29,8 @@ typedef struct s_data
 	// int			is_even;
 	int			dead_id;
 	bool		started;
-	bool		*available; 
+	bool		*available;
+	pthread_mutex_t t_lock;
 	pthread_mutex_t	lock;
 	pthread_mutex_t *fork_lock;
 	pthread_mutex_t write;
@@ -54,6 +55,7 @@ typedef struct s_philo
 	// bool			*ra;
 	pthread_mutex_t	mlt_lock;
 	pthread_mutex_t	a_lock;
+	pthread_mutex_t death_lock;
 	pthread_mutex_t mlc_lock;
 	pthread_mutex_t	*r_lock;
 	pthread_mutex_t *l_lock;
