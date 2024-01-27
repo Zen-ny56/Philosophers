@@ -67,9 +67,9 @@ void	*waiter(void *arg)
 		{
 			if (weigh_in(&philo[i]) == 0)
 			{
-				pthread_mutex_lock(&shared->lock);
+				pthread_mutex_lock(&shared->weight);
 				shared->full_philos++;
-				pthread_mutex_unlock(&shared->lock);
+				pthread_mutex_unlock(&shared->weight);
 			}
 			i++;
 		}
@@ -79,13 +79,13 @@ void	*waiter(void *arg)
 
 int	weigh_in(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->p_data);
+	pthread_mutex_lock(&philo->weigh_in);
 	if (philo->meals_eaten == philo->info->max_meals)
 	{
 		philo->full = true;
-		pthread_mutex_unlock(&philo->p_data);
+		pthread_mutex_unlock(&philo->weigh_in);
 		return (0);
 	}
-	pthread_mutex_unlock(&philo->p_data);
+	pthread_mutex_unlock(&philo->weigh_in);
 	return (1);
 }

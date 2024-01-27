@@ -32,6 +32,7 @@ typedef struct s_data
 	bool		*available;
 	pthread_mutex_t t_lock;
 	pthread_mutex_t	lock;
+	pthread_mutex_t weight;
 	pthread_mutex_t *fork_lock;
 	pthread_mutex_t write;
 	size_t			start;
@@ -55,6 +56,7 @@ typedef struct s_philo
 	// bool			*ra;
 	pthread_mutex_t	mlt_lock;
 	pthread_mutex_t	a_lock;
+	pthread_mutex_t weigh_in;
 	pthread_mutex_t death_lock;
 	pthread_mutex_t mlc_lock;
 	pthread_mutex_t	*r_lock;
