@@ -10,9 +10,6 @@ void	init(char **argv, t_data *ap)
 		ap->max_meals = atoi(argv[5]);
 	else
 		ap->max_meals = -1;
-	// ap->time_death = 0;
-	// ap->time_eat = 0;
-	// ap->is_even = -1;
 	ap->started = false;
 	ap->dead_id = 0;
 	ap->full_philos = 0;
@@ -50,6 +47,7 @@ void	mutex_init(t_data *ap)
 		pthread_mutex_init(&ap->philos[i].a_lock, NULL);
 		pthread_mutex_init(&ap->philos[i].mlt_lock, NULL);
 		pthread_mutex_init(&ap->philos[i].mlc_lock, NULL);
+		// pthread_mutex_init(&ap->philos[i)
 		i++;
 	}
 	while (i < ap->num_philo)

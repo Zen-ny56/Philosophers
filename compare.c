@@ -35,10 +35,10 @@ int	satisfied(t_philo *philo)
 
 int	oj(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
+	pthread_mutex_lock(&philo->info->finish);
 	if (philo->info->dead_id > 0)
 	{
-		pthread_mutex_unlock(&philo->info->lock);
+		pthread_mutex_unlock(&philo->info->finish);
 		return (1);
 	}
 	pthread_mutex_unlock(&philo->info->lock);

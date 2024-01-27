@@ -24,12 +24,10 @@ typedef struct s_data
 	int			num_philo;
 	int			max_meals;
 	int			full_philos;
-	// int			time_eat;
-	// int			time_death;
-	// int			is_even;
 	int			dead_id;
 	bool		started;
 	bool		*available;
+	pthread_mutex_t finish;
 	pthread_mutex_t t_lock;
 	pthread_mutex_t	lock;
 	pthread_mutex_t weight;
@@ -48,12 +46,7 @@ typedef struct s_philo
 	int				*l_fork;
 	int				*r_fork;
 	bool			is_dead;
-	// bool			is_dini;
-	// bool			is_sleeping;
-	// bool			just_ate;
 	bool			full;
-	// bool			*la;
-	// bool			*ra;
 	pthread_mutex_t	mlt_lock;
 	pthread_mutex_t	a_lock;
 	pthread_mutex_t weigh_in;
