@@ -30,6 +30,9 @@ void	alloc(t_data *ap)
 	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
 	if (ap->philos == NULL)
 		return ;
+	ap->check = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * 1);
+	if (ap->check == NULL)
+		return ;
 }
 
 void	mutex_init(t_data *ap)
@@ -43,11 +46,9 @@ void	mutex_init(t_data *ap)
 	{
 		ap->fork[i] = 0;
 		ap->available[i] = true;
+		pthread_mutex_int(&ap->check[i], NULL);
+		ap->philos[i].checkp = &ap->check[i];
 		pthread_mutex_init(&ap->fork_lock[i], NULL);
-		pthread_mutex_init(&ap->philos[i].a_lock, NULL);
-		pthread_mutex_init(&ap->philos[i].mlt_lock, NULL);
-		pthread_mutex_init(&ap->philos[i].mlc_lock, NULL);
-		// pthread_mutex_init(&ap->philos[i)
 		i++;
 	}
 	while (i < ap->num_philo)

@@ -19,16 +19,12 @@ void	update_meal_count(t_philo *philo)
 {
 	if (philo->info->max_meals == -1)
 		return ;
-	pthread_mutex_lock(&philo->mlc_lock);
 	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->mlc_lock);
 }
 
 void	update_meal_time(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mlt_lock);
 	philo->last_meal_time = get_time();
-	pthread_mutex_unlock(&philo->mlt_lock);
 }
 
 // void    bri_the_check(t_philo *philo)

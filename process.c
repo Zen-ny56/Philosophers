@@ -71,39 +71,39 @@ void	get_a_table(t_philo *philo)
 
 void	pick_left(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->r_lock);
-	philo->r_fork = 1;
+	pthread_mutex_lock(&philo->l_fork);
+	philo->l_fork = 1;
 	print_event(philo, "has taken a fork");
 }
 
 void	pick_right(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->l_lock);
-	philo->l_fork = 1;
+	pthread_mutex_lock(&philo->r_fork);
+	philo->r_fork = 1;
 	print_event(philo, "has taken a fork");
 }
 
 int	check(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->a_lock);
+	pthread_mutex_lock(&philo->checkp);
 	if (philo->r_fork == 0 && philo->l_fork == 1)
 	{
 		drop_left(philo);
-		pthread_mutex_unlock(&philo->a_lock);
+		pthread_mutex_unlock(&philo->checkp);
 		return (1);
 	}
 	else if (philo->l_fork == 0 && philo->r_fork == 1)
 	{
 		drop_right(philo);
-		pthread_mutex_unlock(&philo->a_lock);
+		pthread_mutex_unlock(&philo->checkp);
 		return (1);
 	}
 	else if (philo->l_fork == 0 && philo->r_fork == 0)
 	{
-		pthread_mutex_unlock(&philo->a_lock);
+		pthread_mutex_unlock(&philo->checkp);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->a_lock);
+	pthread_mutex_unlock(&philo->checkp);
 	return (0);
 }
 
