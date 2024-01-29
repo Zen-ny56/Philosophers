@@ -25,13 +25,8 @@ typedef struct s_data
 	int			max_meals;
 	int			full_philos;
 	int			dead_id;
-	bool		started;
-	bool		*available;
-	pthread_mutex_t finish;
-	pthread_mutex_t t_lock;
-	pthread_mutex_t	lock;
-	pthread_mutex_t weight;
 	pthread_mutex_t *fork_lock;
+	pthread_mutex_t csi;
 	pthread_mutex_t *check;
 	pthread_mutex_t write;
 	size_t			start;
@@ -46,7 +41,6 @@ typedef struct s_philo
 	int 		meals_eaten;
 	int				*l_fork;
 	int				*r_fork;
-	bool			is_dead;
 	bool			full;
 	pthread_mutex_t *checkp;
 	pthread_mutex_t	*r_lock;

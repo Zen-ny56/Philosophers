@@ -2,9 +2,7 @@
 
 size_t	get_death_time(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
 	size_t death_time = philo->info->death_time;
-	pthread_mutex_unlock(&philo->info->lock);
 	return (death_time);
 }
 
@@ -38,9 +36,7 @@ void	update_meal_time(t_philo *philo)
 
 void	pickup_coffin(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->info->lock);
 	philo->info->dead_id = philo->id;
-	pthread_mutex_unlock(&philo->info->lock);
 }
 
 void	process_kill(t_data *info)
