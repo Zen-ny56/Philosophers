@@ -1,25 +1,22 @@
 #include "philosophers.h"
 
-void	*monitor(void *arg)
+void	monitor_simulation(t_data *ap)
 {
-	t_data *shared;
-	t_philo *philos;
-	int nb_philos;
 
-	shared = (t_data *)arg;
-	philos = shared->philos;
-	int i = 0;
-	nb_philos = shared->num_philo;
 	while (1)
 	{
-		while (i < nb_philos)
+		int i = 0;
+		while (i < ap->num_philo)
 		{
-			if (autopsy(&philos[i]) == 0)
+			pthread_mutex_lock(&ap->time_lock);
+			if (get_time() - ap->philos[i].last_meal_time > get_death_time(&ap->philos[i]))
 			{
-				timeofdeath(&philos[i]);
-				return (NULL);
+				pthread_mutex_unlock(&ap->time_lock);
+				pthread_mutex_lock(&ap->death_lock);
+				ap->philos[i].info->dead_id = ap->philos[i].id;
+				pthread_mutex_unlock(&ap->death_lock);
+				return (ap);
 			}
-			i++;
 		}
 	}
 	return (NULL);
@@ -27,6 +24,7 @@ void	*monitor(void *arg)
 
 int	autopsy(t_philo *philo)
 {
+
 	if (get_time() - philo->last_meal_time > get_death_time(philo))
 	{
 		philo->info->dead_id = philo->id;

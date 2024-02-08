@@ -40,7 +40,9 @@ void	mutex_init(t_data *ap)
 
 	i = 0;
 	pthread_mutex_init(&ap->write, NULL);
-	pthread_mutex_init(&ap->csi, NULL);
+	//pthread_mutex_init(&ap->status, NULL);
+	pthread_mutex_init(&ap->gym, NULL);
+	pthread_mutex_init(&ap->time_lock, NULL);
 	while (i < ap->num_philo)
 	{
 		ap->fork[i] = 0;

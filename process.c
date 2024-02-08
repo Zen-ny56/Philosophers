@@ -18,6 +18,7 @@ void	thread_process(t_data *ap)
 		pthread_create(&ap->philos[i].thread, NULL, &routine, &ap->philos[i]);
 		i++;
 	}
+	monitor_simulation(ap);
 	// pthread_create(&ap->monitor, NULL, &monitor, ap);
 	// if (ap->max_meals > 0)
 	// 	pthread_create(&ap->waiter, NULL, &waiter, ap);
@@ -35,13 +36,6 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		pthread_mutex_lock(&philo->info->csi);
-		if (philo->info->dead_id > 0)
-		{
-			pthread_mutex_unlock(&philo->info->csi);
-			return (NULL);
-		}
-		pthread_mutex_unlock(&philo->info->csi);
 		get_a_table(philo);
 		pthread_mutex_lock(philo->taken_loc);
 		if (philo->taken_point != 0)
@@ -62,13 +56,13 @@ void	get_a_table(t_philo *philo)
 {
 	while (1)
 	{
-		pthread_mutex_lock(&philo->info->csi);
-		if (philo->info->dead_id > 0)
-		{
-			pthread_mutex_unlock(&philo->info->csi);
-			return ;
-		}
-		pthread_mutex_unlock(&philo->info->csi);
+		// pthread_mutex_lock(&philo->info->csi);
+		// if (philo->info->dead_id > 0)
+		// {
+		// 	pthread_mutex_unlock(&philo->info->csi);
+		// 	return ;
+		// }
+		// pthread_mutex_unlock(&philo->info->csi);
 		if (philo->id % 2 > 0)
 		{
 			pick_right(philo);

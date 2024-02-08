@@ -3,8 +3,14 @@
 void    eat(t_philo *philo)
 {
 	ft_usleep(philo->info->eatin_time, philo->info);
+	pthread_mutex_lock(&philo->info->time_lock);
 	philo->last_meal_time = get_time();
-	update_meal_count(philo);
+	pthread_mutex_unlock(&philo->info->time_lock);
+	pthread_mutex_lock(&philo->info->gym);
+	if (philo->info->max_meals != -1)
+		philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->info->gym);
+
 }
 
 void	ft_sleep(t_philo *philo)

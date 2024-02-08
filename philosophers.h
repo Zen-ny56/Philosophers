@@ -26,7 +26,9 @@ typedef struct s_data
 	int			dead_id;
 	pthread_mutex_t *fork_lock;
 	pthread_mutex_t *taken_lock;
-	pthread_mutex_t csi;
+	pthread_mutex_t meal_lock;
+	pthread_mutex_t death_lock;
+	pthread_mutex_t time_lock;
 	pthread_mutex_t write;
 	size_t			start;
 }
@@ -41,7 +43,7 @@ typedef struct s_philo
 	int				*l_fork;
 	int				*r_fork;
 	bool			*taken_point;
-	bool			full;
+	//bool			full;
 	pthread_mutex_t *taken_loc;
 	pthread_mutex_t	*r_lock;
 	pthread_mutex_t *l_lock;
@@ -103,5 +105,6 @@ void  	drop_forks(t_philo *philo);
 void 	pick_left(t_philo *philo);
 void 	pick_right(t_philo *philo);
 void	check(t_philo *philo);
+void 	monitor_simulation(t_data *ap);
 
 #endif
