@@ -16,18 +16,17 @@ typedef struct s_data
 	size_t		eatin_time;
 	size_t		sleepin_time;
 	size_t		death_time;
-	pthread_t	monitor;
-	pthread_t	waiter;
 	t_philo		*philos;
 	int			*fork;
-	int			terminate;
+	bool		*taken_both;
+	//int			terminate;
 	int			num_philo;
 	int			max_meals;
 	int			full_philos;
 	int			dead_id;
 	pthread_mutex_t *fork_lock;
+	pthread_mutex_t *taken_lock;
 	pthread_mutex_t csi;
-	pthread_mutex_t *check;
 	pthread_mutex_t write;
 	size_t			start;
 }
@@ -41,8 +40,9 @@ typedef struct s_philo
 	int 		meals_eaten;
 	int				*l_fork;
 	int				*r_fork;
+	bool			*taken_point;
 	bool			full;
-	pthread_mutex_t *checkp;
+	pthread_mutex_t *taken_loc;
 	pthread_mutex_t	*r_lock;
 	pthread_mutex_t *l_lock;
 	t_data			*info;
@@ -97,10 +97,11 @@ int		ru_full(t_data *info);
 void	process_kill(t_data *info);
 int 	terminate(t_data *info);
 void	join_threads(t_data *info);
-void   drop_right(t_philo *philo);
-void   drop_left(t_philo *philo);
-void  drop_forks(t_philo *philo);
-void pick_left(t_philo *philo);
-void pick_right(t_philo *philo);
+void   	drop_right(t_philo *philo);
+void   	drop_left(t_philo *philo);
+void  	drop_forks(t_philo *philo);
+void 	pick_left(t_philo *philo);
+void 	pick_right(t_philo *philo);
+void	check(t_philo *philo);
 
 #endif

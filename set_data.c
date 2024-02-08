@@ -25,23 +25,14 @@ void	update_meal_time(t_philo *philo)
 	philo->last_meal_time = get_time();
 }
 
-// void    bri_the_check(t_philo *philo)
-// {
-// 	pthread_mutex_lock(&philo->p_data);
-// 	*(philo->la) = true;
-// 	*(philo->ra) = true;
-// 	philo->is_eating = false;
-// 	pthread_mutex_unlock(&philo->p_data);
-// }
-
 void	pickup_coffin(t_philo *philo)
 {
 	philo->info->dead_id = philo->id;
 }
 
-void	process_kill(t_data *info)
-{
-	pthread_mutex_lock(&info->t_lock);
-	info->terminate++;
-	pthread_mutex_unlock(&info->t_lock);
-}
+// void	process_kill(t_data *info)
+// {
+// 	pthread_mutex_lock(&info->t_lock);
+// 	info->terminate++;
+// 	pthread_mutex_unlock(&info->t_lock);
+// }

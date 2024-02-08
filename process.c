@@ -18,14 +18,14 @@ void	thread_process(t_data *ap)
 		pthread_create(&ap->philos[i].thread, NULL, &routine, &ap->philos[i]);
 		i++;
 	}
-	pthread_create(&ap->monitor, NULL, &monitor, ap);
-	if (ap->max_meals > 0)
-		pthread_create(&ap->waiter, NULL, &waiter, ap);
-	if (terminate(ap) == 1)
-	{
-		join_threads(ap);
-		free_memory(ap);
-	}
+	// pthread_create(&ap->monitor, NULL, &monitor, ap);
+	// if (ap->max_meals > 0)
+	// 	pthread_create(&ap->waiter, NULL, &waiter, ap);
+	// if (terminate(ap) == 1)
+	// {
+	// 	join_threads(ap);
+	// 	free_memory(ap);
+	// }
 	return ;
 }
 
@@ -43,13 +43,16 @@ void	*routine(void *arg)
 		}
 		pthread_mutex_unlock(&philo->info->csi);
 		get_a_table(philo);
-		if (check(philo) == 0)
+		pthread_mutex_lock(philo->taken_loc);
+		if (philo->taken_point != 0)
 		{
+			pthread_mutex_unlock(philo->taken_loc);
 			eat(philo);
 			drop_forks(philo);
 			ft_sleep(philo);
 			print_event(philo, "is thinking");
 		}
+		pthread_mutex_unlock(philo->taken_loc);
 		print_event(philo, "is thinking");
 	}
 	return (NULL);
@@ -86,40 +89,44 @@ void	get_a_table(t_philo *philo)
 
 void	pick_left(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->l_fork);
-	philo->l_fork = 1;
+	pthread_mutex_lock(philo->l_lock);
+	*(philo->l_fork) = 1;
 	print_event(philo, "has taken a fork");
 }
 
 void	pick_right(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->r_fork);
-	philo->r_fork = 1;
+	pthread_mutex_lock(philo->r_lock);
+	*(philo->r_fork) = 1;
 	print_event(philo, "has taken a fork");
 }
 
-int	check(t_philo *philo)
+void	check(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->checkp);
-	if (philo->r_fork == 0 && philo->l_fork == 1)
+	pthread_mutex_lock(philo->taken_loc);
+	if (*(philo->r_fork) == 0 && *(philo->l_fork) == 1)
 	{
+		philo->taken_point = false;
 		drop_left(philo);
-		pthread_mutex_unlock(&philo->checkp);
-		return (1);
+		pthread_mutex_unlock(philo->taken_loc);
+		return ;
 	}
-	else if (philo->l_fork == 0 && philo->r_fork == 1)
+	else if (*(philo->l_fork) == 0 && *(philo->r_fork) == 1)
 	{
+		philo->taken_point = false;
 		drop_right(philo);
-		pthread_mutex_unlock(&philo->checkp);
-		return (1);
+		pthread_mutex_unlock(philo->taken_loc);
+		return ;
 	}
-	else if (philo->l_fork == 0 && philo->r_fork == 0)
+	else if (*(philo->l_fork) == 0 && *(philo->r_fork) == 0)
 	{
-		pthread_mutex_unlock(&philo->checkp);
-		return (1);
+		philo->taken_point = false;
+		pthread_mutex_unlock(philo->taken_loc);
+		return ;
 	}
-	pthread_mutex_unlock(&philo->checkp);
-	return (0);
+	*(philo->taken_point) = true;
+	pthread_mutex_unlock(philo->taken_loc);
+	return ;
 }
 
 void	drop_forks(t_philo *philo)
@@ -148,74 +155,3 @@ void   drop_right(t_philo *philo)
 	pthread_mutex_unlock(philo->r_lock);
 }
 
-// void	bon_appetit(t_philo *philo)
-// {
-// 	eat(philo);
-// 	drop_forks(philo);
-// 	ft_sleep(philo);
-// }
-
-// void	get_a_table(t_philo *philo)
-// {
-
-// 	if (philo->id % 2 > 0)
-// 	{
-// 		// pthread_mutex_lock(&philo->p_data);
-// 		// if (*(philo->ra) == false && *(philo->la) == false)
-// 		// {
-// 	    // 	pthread_mutex_lock(philo->r_lock);
-// 		// 	philo->r_fork = 1;
-// 		// 	pthread_mutex_lock(philo->l_lock);
-// 		// 	philo->l_fork = 1;
-// 		// 	*(philo->ra) = false; 
-// 		// 	*(philo->la) = false;
-// 		// 	pthread_mutex_unlock(&philo->p_data);
-// 		// 	set_cutlery(philo);
-// 		// 	print_event(philo, "has taken a fork");
-// 		// 	print_event(philo, "has taken a fork");
-// 		// }
-// 		// pthread_mutex_unlock(&philo->p_data);
-// 	}
-// 	else
-// 	{
-// 		pthread_mutex_lock(&philo->p_data);
-// 		if (*(philo->la) == false && *(philo->ra) == false)
-// 		{
-// 			pthread_mutex_lock(philo->l_fork);
-// 			pthread_mutex_lock(philo->r_fork);
-// 			*(philo->la) = false;
-// 			*(philo->ra) = false;
-// 			pthread_mutex_unlock(&philo->p_data);
-// 			set_cutlery(philo);
-// 			print_event(philo, "has taken a fork");
-// 			print_event(philo, "has taken a fork");
-// 		}
-// 		pthread_mutex_unlock(&philo->p_data);
-// 	}
-// }
-
-// void	bon_appetit(t_philo *philo)
-// {
-// 	eat(philo);
-// 	drop_forks(philo);
-// 	ft_sleep(philo);
-// 	print_event(philo, "is thinking");
-// 	else if (satisfied(philo) == 1)
-// 		print_event(philo, "is thinking");
-// }
-
-// void	drop_forks(t_philo *philo)
-// {
-// 	if (philo->id % 2 > 0)
-// 	{
-// 		bri_the_check(philo);
-// 		pthread_mutex_unlock(philo->l_fork);
-// 		pthread_mutex_unlock(philo->r_fork);
-// 	}
-// 	else if (philo->id % 2 == 0)
-// 	{
-// 		bri_the_check(philo);
-// 		pthread_mutex_unlock(philo->r_fork);
-// 		pthread_mutex_unlock(philo->l_fork);
-// 	}
-// }
