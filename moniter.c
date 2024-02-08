@@ -1,63 +1,53 @@
 #include "philosophers.h"
 
-void	monitor_simulation(t_data *ap)
+int	monitor_simulation(t_data *info)
 {
 
 	while (1)
 	{
 		int i = 0;
-		while (i < ap->num_philo)
+		while (i < info->num_philo)
 		{
-			pthread_mutex_lock(&ap->time_lock);
-			if (get_time() - ap->philos[i].last_meal_time > get_death_time(&ap->philos[i]))
-			{
-				pthread_mutex_unlock(&ap->time_lock);
-				pthread_mutex_lock(&ap->death_lock);
-				ap->philos[i].info->dead_id = ap->philos[i].id;
-				pthread_mutex_unlock(&ap->death_lock);
-				return (ap);
-			}
+			if (autopsy(&info->philos[i]) > 0)
+				return (info->dead_id);
+			if (waiter(&info->philos[i]) > 0)
+				change_status(&info->philos[i]);
+			i++;
 		}
 	}
-	return (NULL);
+	return (0);
+}
+
+void	change_status(t_philo *philo)
+{
+	pthread_mutex_lock(philo->status_lock_ptr);
+	philo->status_ptr = 1;
+	pthread_mutex_unlock(philo->status_lock_ptr);
 }
 
 int	autopsy(t_philo *philo)
 {
-
+	pthread_mutex_lock(&philo->info->time_lock);
 	if (get_time() - philo->last_meal_time > get_death_time(philo))
 	{
+		pthread_mutex_lock(&philo->info->death_lock);
 		philo->info->dead_id = philo->id;
-		return (0);
+		pthread_mutex_unlock(&philo->info->death_lock);
+		pthread_mutex_unlock(&philo->info->time_lock);
+		return (philo->info->dead_id);
 	}
-	return (1);
+	pthread_mutex_unlock(&philo->info->time_lock);
+	return (philo->info->dead_id);
 }
 
-void	*waiter(void *arg)
+int	*waiter(t_philo *philo)
 {
-	t_data *shared = (t_data *)arg;
-	t_philo *philo = shared->philos;
-	while (1)
-	{
-		int i = 0;
-		while (i < shared->num_philo)
-		{
-			if (weigh_in(&philo[i]) == 0)
-			{
-				shared->full_philos++;
-			}
-			i++;
-		}
-	}
-	return (NULL);
-}
-
-int	weigh_in(t_philo *philo)
-{
+	pthread_mutex_lock(&philo->info->meal_lock);
 	if (philo->meals_eaten == philo->info->max_meals)
 	{
-		philo->full = true;
-		return (0);
+		pthread_mutex_unlock(&philo->info->meal_lock);
+		return (1);
 	}
-	return (1);
+	pthread_mutex_unlock(&philo->info->meal_lock);
+	return (0);
 }

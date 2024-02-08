@@ -1,24 +1,29 @@
 #include "philosophers.h"
 
-void	thread_process(t_data *ap)
+void	thread_process(t_data *info)
 {
 	int	i;
 
 	i = 0;
-	init_personal_data(ap);
-	ap->start = get_time();
-	while (i < ap->num_philo)
+	init_personal_data(info);
+	info->start = get_time();
+	while (i < info->num_philo)
 	{
-		ap->philos[i].last_meal_time = ap->start;
+		info->philos[i].last_meal_time = info->start;
 		i++;
 	}
 	i = 0;
-	while (i < ap->num_philo)
+	while (i < info->num_philo)
 	{
-		pthread_create(&ap->philos[i].thread, NULL, &routine, &ap->philos[i]);
+		pthread_create(&info->philos[i].thread, NULL, &routine, &info->philos[i]);
 		i++;
 	}
-	monitor_simulation(ap);
+	if (monitor_simulation(info) > 0)
+	{
+		pthread_mutex_lock(&info->write);
+		printf("%zu %d philo has died\n", time - info->start, info->dead_id);
+		pthread_mutex_unlock(&info->write);
+	}
 	// pthread_create(&ap->monitor, NULL, &monitor, ap);
 	// if (ap->max_meals > 0)
 	// 	pthread_create(&ap->waiter, NULL, &waiter, ap);
@@ -37,16 +42,10 @@ void	*routine(void *arg)
 	while (1)
 	{
 		get_a_table(philo);
-		pthread_mutex_lock(philo->taken_loc);
-		if (philo->taken_point != 0)
-		{
-			pthread_mutex_unlock(philo->taken_loc);
-			eat(philo);
-			drop_forks(philo);
-			ft_sleep(philo);
-			print_event(philo, "is thinking");
-		}
-		pthread_mutex_unlock(philo->taken_loc);
+		eat(philo);
+		drop_forks(philo);
+		ft_sleep(philo);
+		print_event(philo, "is thinking");
 		print_event(philo, "is thinking");
 	}
 	return (NULL);
@@ -97,29 +96,29 @@ void	pick_right(t_philo *philo)
 
 void	check(t_philo *philo)
 {
-	pthread_mutex_lock(philo->taken_loc);
+	pthread_mutex_lock(philo->taken_lock_ptr);
 	if (*(philo->r_fork) == 0 && *(philo->l_fork) == 1)
 	{
-		philo->taken_point = false;
+		philo->taken_ptr = false;
 		drop_left(philo);
-		pthread_mutex_unlock(philo->taken_loc);
+		pthread_mutex_unlock(philo->taken_lock_ptr);
 		return ;
 	}
 	else if (*(philo->l_fork) == 0 && *(philo->r_fork) == 1)
 	{
-		philo->taken_point = false;
+		philo->taken_ptr = false;
 		drop_right(philo);
-		pthread_mutex_unlock(philo->taken_loc);
+		pthread_mutex_unlock(philo->taken_lock_ptr);
 		return ;
 	}
 	else if (*(philo->l_fork) == 0 && *(philo->r_fork) == 0)
 	{
-		philo->taken_point = false;
-		pthread_mutex_unlock(philo->taken_loc);
+		philo->taken_ptr = false;
+		pthread_mutex_unlock(philo->taken_lock_ptr);
 		return ;
 	}
-	*(philo->taken_point) = true;
-	pthread_mutex_unlock(philo->taken_loc);
+	*(philo->taken_ptr) = true;
+	pthread_mutex_unlock(philo->taken_lock_ptr);
 	return ;
 }
 

@@ -32,6 +32,9 @@ void	alloc(t_data *ap)
 	ap->taken_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
 	if (ap->taken_lock == NULL)
 		return ;
+	ap->status = (int *)malloc(sizeof(int) * ap->num_philo);
+	if (ap->status == NULL)
+		return ;
 }
 
 void	mutex_init(t_data *ap)
@@ -40,14 +43,16 @@ void	mutex_init(t_data *ap)
 
 	i = 0;
 	pthread_mutex_init(&ap->write, NULL);
-	//pthread_mutex_init(&ap->status, NULL);
-	pthread_mutex_init(&ap->gym, NULL);
+	pthread_mutex_init(&ap->death_lock, NULL);
 	pthread_mutex_init(&ap->time_lock, NULL);
+	pthread_mutex_init(&ap->meal_lock, NULL);
 	while (i < ap->num_philo)
 	{
 		ap->fork[i] = 0;
 		ap->taken_both[i] = false;
+		ap->status[i] = 0;
 		pthread_mutex_init(&ap->taken_lock[i], NULL);
+		pthread_mutex_init(&ap->status_lock[i], NULL);
 		pthread_mutex_init(&ap->fork_lock[i], NULL);
 		i++;
 	}
@@ -60,8 +65,11 @@ void	mutex_init(t_data *ap)
 		ap->philos[i].l_fork = &ap->fork[i];
 		ap->philos[i].r_fork = &ap->fork[(i + 1) % ap->num_philo];
 		// Taken array and it's lock
-		ap->philos[i].taken_point = &ap->taken_both[i];
-		ap->philos[i].taken_loc = &ap->taken_lock[i];
+		ap->philos[i].taken_ptr = &ap->taken_both[i];
+		ap->philos[i].taken_lock_ptr = &ap->taken_lock[i];
+		// Status array and it's lock
+		ap->philos[i].status_ptr = &ap->status[i];
+		ap->philos[i].status_lock_ptr = &ap->status_lock[i];
 		i++;
 	}
 }
@@ -77,7 +85,6 @@ void	init_personal_data(t_data *ap)
 		ap->philos[i].info = ap;
 		ap->philos[i].meals_eaten = 0;
 		ap->philos[i].last_meal_time = 0;
-		ap->philos[i].full = false;
 		i++;
 	}
 }
