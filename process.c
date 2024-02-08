@@ -20,8 +20,11 @@ void	thread_process(t_data *info)
 	}
 	if (monitor_simulation(info) > 0)
 	{
+		size_t			time;
+
+		time = get_time();
 		pthread_mutex_lock(&info->write);
-		printf("%zu %d philo has died\n", time - info->start, info->dead_id);
+		printf("%zu %d philo has died\n", time - info->start, monitor_simulation(info));
 		pthread_mutex_unlock(&info->write);
 	}
 	// pthread_create(&ap->monitor, NULL, &monitor, ap);
@@ -39,62 +42,49 @@ void	*routine(void *arg)
 {
 	t_philo	*philo;
 	philo = (t_philo *)arg;
-	while (1)
+	while (!check_status(philo))
 	{
-		get_a_table(philo);
-		eat(philo);
-		drop_forks(philo);
-		ft_sleep(philo);
-		print_event(philo, "is thinking");
-		print_event(philo, "is thinking");
+		if (get_a_table(philo))
+			break ;
+		if (eat(philo))
+			break ;
+		if (drop_forks(philo))
+			break ;
+		if (ft_sleep(philo))
+			break ;
+		if (thinking(philo))
+			break ;
 	}
 	return (NULL);
 }
 
-void	get_a_table(t_philo *philo)
+int		get_a_table(t_philo *philo)
 {
 	while (1)
 	{
-		// pthread_mutex_lock(&philo->info->csi);
-		// if (philo->info->dead_id > 0)
-		// {
-		// 	pthread_mutex_unlock(&philo->info->csi);
-		// 	return ;
-		// }
-		// pthread_mutex_unlock(&philo->info->csi);
+		if (check_status(philo))
+			return (1);
 		if (philo->id % 2 > 0)
 		{
 			pick_right(philo);
 			pick_left(philo);
-			check(philo);
+			drop_one(philo);
+			usleep(20);
 			break ;
 		}
 		else
 		{
 			pick_left(philo);
 			pick_right(philo);
-			check(philo);
+			drop_one(philo);
+			usleep(20);
 			break ;
 		}
 	}
-	return ;
+	return (0);
 }
 
-void	pick_left(t_philo *philo)
-{
-	pthread_mutex_lock(philo->l_lock);
-	*(philo->l_fork) = 1;
-	print_event(philo, "has taken a fork");
-}
-
-void	pick_right(t_philo *philo)
-{
-	pthread_mutex_lock(philo->r_lock);
-	*(philo->r_fork) = 1;
-	print_event(philo, "has taken a fork");
-}
-
-void	check(t_philo *philo)
+void	drop_one(t_philo *philo)
 {
 	pthread_mutex_lock(philo->taken_lock_ptr);
 	if (*(philo->r_fork) == 0 && *(philo->l_fork) == 1)
@@ -122,8 +112,10 @@ void	check(t_philo *philo)
 	return ;
 }
 
-void	drop_forks(t_philo *philo)
+int	drop_forks(t_philo *philo)
 {
+	if (check_status(philo))
+		return (1);
 	if (philo->id % 2 > 0)
 	{
 		drop_left(philo);
@@ -134,6 +126,7 @@ void	drop_forks(t_philo *philo)
 		drop_right(philo);
 		drop_left(philo);
 	}
+	return (0);
 }
 
 void	drop_left(t_philo *philo)

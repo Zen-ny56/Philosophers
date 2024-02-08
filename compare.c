@@ -1,10 +1,13 @@
 #include "philosophers.h"
 
-int	ru_full(t_data *info)
+int	check_status(t_philo *philo)
 {
-	if (info->full_philos >= info->num_philo)
+	pthread_mutex_lock(philo->status_lock_ptr);
+	if (*(philo->status_ptr) == 1)
 	{
+		pthread_mutex_unlock(philo->status_lock_ptr);
 		return (1);
 	}
+	pthread_mutex_unlock(philo->status_lock_ptr);
 	return (0);
 }
