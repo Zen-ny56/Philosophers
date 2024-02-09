@@ -46,7 +46,6 @@ typedef struct s_philo
 	int				*r_fork;
 	bool			*taken_ptr;
 	int				*status_ptr;
-	//bool			full;
 	pthread_mutex_t *status_lock_ptr;
 	pthread_mutex_t *taken_lock_ptr;
 	pthread_mutex_t	*r_lock;

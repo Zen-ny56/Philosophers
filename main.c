@@ -18,6 +18,7 @@ int main(int ac, char **av)
 	{
 		alloc(info);
 		mutex_init(info);
+		printf("Here\n");
 		thread_process(info);
 	}
 	exit(0);
