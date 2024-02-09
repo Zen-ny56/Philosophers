@@ -5,6 +5,7 @@ void	print_event(t_philo *philo, char *event)
 	size_t			time;
 
 	time = get_time();
+
 	pthread_mutex_lock(&philo->info->write);
 	printf("%zu %d %s\n", time - philo->info->start, philo->id, event);
 	pthread_mutex_unlock(&philo->info->write);

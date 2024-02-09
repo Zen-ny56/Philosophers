@@ -13,11 +13,11 @@ typedef struct s_philo t_philo;
 
 typedef struct s_data
 {
+	t_philo		*philos;
 	size_t		eatin_time;
 	size_t		sleepin_time;
 	size_t		death_time;
 	size_t			start;
-	t_philo		*philos;
 	int			*fork;
 	bool		*taken_both;
 	int			*status;
@@ -37,6 +37,7 @@ typedef struct s_data
 
 typedef struct s_philo
 {
+	struct s_data	*info;
 	int				id;
 	pthread_t		thread;
 	size_t	last_meal_time;
@@ -50,7 +51,6 @@ typedef struct s_philo
 	pthread_mutex_t *taken_lock_ptr;
 	pthread_mutex_t	*r_lock;
 	pthread_mutex_t *l_lock;
-	t_data			*info;
 }
 		t_philo;
 

@@ -14,25 +14,31 @@ int	check_status(t_philo *philo)
 
 void	case_one(t_data *info)
 {
-	info->fork = malloc(sizeof(int) * info->num_philo);
+	info->fork = (int *)malloc(sizeof(int) * info->num_philo);
 	if (info->fork == NULL)
 		return ;
-	info->fork_lock = malloc(sizeof(pthread_mutex_t) * info->num_philo);
+	info->fork_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_philo);
 	if (info->fork_lock == NULL)
 		return ;
-	info->philos = malloc(sizeof(t_philo) * info->num_philo);
+	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num_philo);
 	if (info->philos == NULL)
 		return ;
 	pthread_mutex_init(&info->write, NULL);
-	pthread_mutex_init(&info->fork_lock[0], NULL);
-	info->fork[0] = 0;
-	info->philos[0].l_fork = &info->fork[0];
-	info->philos[0].l_lock = &info->fork_lock[0];
+	int i = 0;
+	while (i < info->num_philo)
+	{
+    	pthread_mutex_init(&info->fork_lock[i], NULL);
+   		info->fork[i] = 0;
+    	info->philos[i].l_fork = &info->fork[i];
+    	info->philos[i].l_lock = &info->fork_lock[i];
+    	info->philos[i].id = i + 1;
+		info->philos[i].info = info;
+		i++;
+	}
 	info->philos[0].id = 1;
 	info->start = get_time();
 	pthread_create(&info->philos[0].thread, NULL, &one_train, &info->philos[0]);
 	pthread_join(info->philos[0].thread, NULL);
-	exit(0);
 }
 
 void	*one_train(void *arg)
@@ -40,8 +46,8 @@ void	*one_train(void *arg)
 	t_philo	*philo;
 	philo = (t_philo *)arg;
 	pick_left(philo);
-	return (NULL);
 	ft_usleep(philo->info->death_time, philo->info);
 	drop_left(philo);
 	print_event(philo, "has died");
+	return (NULL);
 }
