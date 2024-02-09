@@ -23,19 +23,25 @@ void	case_one(t_data *info)
 	info->philos = malloc(sizeof(t_philo) * info->num_philo);
 	if (info->philos == NULL)
 		return ;
+	pthread_mutex_init(&info->write, NULL);
+	pthread_mutex_init(&info->fork_lock[0], NULL);
 	info->fork[0] = 0;
 	info->philos[0].l_fork = &info->fork[0];
-	pthread_create(&info->philos[0].thread, NULL, one_train, &info->philos[0]);
+	info->philos[0].l_lock = &info->fork_lock[0];
+	info->philos[0].id = 1;
+	info->start = get_time();
+	pthread_create(&info->philos[0].thread, NULL, &one_train, &info->philos[0]);
+	pthread_join(info->philos[0].thread, NULL);
+	exit(0);
 }
 
 void	*one_train(void *arg)
 {
-	t_data *info = (t_data *)arg;
-	t_philo *philo = info->philos;
-	
+	t_philo	*philo;
+	philo = (t_philo *)arg;
 	pick_left(philo);
-	ft_usleep(info->death_time, info);
+	return (NULL);
+	ft_usleep(philo->info->death_time, philo->info);
 	drop_left(philo);
 	print_event(philo, "has died");
-	return (NULL);
 }

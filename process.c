@@ -131,13 +131,13 @@ int	drop_forks(t_philo *philo)
 
 void	drop_left(t_philo *philo)
 {
-	philo->l_fork = 0;
+	*(philo->l_fork) = 0;
 	pthread_mutex_unlock(philo->l_lock);
 }
 
 void   drop_right(t_philo *philo)
 {
-	philo->r_fork = 0;
+	*(philo->r_fork) = 0;
 	pthread_mutex_unlock(philo->r_lock);
 }
 

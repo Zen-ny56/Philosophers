@@ -16,6 +16,7 @@ typedef struct s_data
 	size_t		eatin_time;
 	size_t		sleepin_time;
 	size_t		death_time;
+	size_t			start;
 	t_philo		*philos;
 	int			*fork;
 	bool		*taken_both;
@@ -31,7 +32,6 @@ typedef struct s_data
 	pthread_mutex_t death_lock;
 	pthread_mutex_t time_lock;
 	pthread_mutex_t write;
-	size_t			start;
 }
 			t_data;
 
