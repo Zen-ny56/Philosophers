@@ -1,90 +1,90 @@
 #include "philosophers.h"
 
-void	init(char **argv, t_data *ap)
+void	init(char **argv, t_data *info)
 {
-	ap->num_philo = atoi(argv[1]);
-	ap->death_time = (size_t)atoi(argv[2]);
-	ap->eatin_time = (size_t)atoi(argv[3]);
-	ap->sleepin_time = (size_t)atoi(argv[4]);
+	info->num_philo = atoi(argv[1]);
+	info->death_time = (size_t)atoi(argv[2]);
+	info->eatin_time = (size_t)atoi(argv[3]);
+	info->sleepin_time = (size_t)atoi(argv[4]);
 	if (argv[5] != NULL)
-		ap->max_meals = atoi(argv[5]);
+		info->max_meals = atoi(argv[5]);
 	else
-		ap->max_meals = -1;
-	ap->dead_id = 0;
-	ap->full_philos = 0;
-	//ap->terminate = 0;
+		info->max_meals = -1;
+	info->dead_id = 0;
+	info->full_philos = 0;
+	//info->terminate = 0;
 }
 
-void	alloc(t_data *ap)
+void	alloc(t_data *info)
 {
-	ap->fork = (int *)malloc(sizeof(int) * ap->num_philo);
-	if (ap->fork == NULL)
+	info->fork = (int *)malloc(sizeof(int) * info->num_philo);
+	if (info->fork == NULL)
 		return ;
-	ap->fork_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
-	if (ap->fork_lock == NULL)
+	info->fork_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_philo);
+	if (info->fork_lock == NULL)
 		return ;
-	ap->philos = (t_philo *)malloc(sizeof(t_philo) * ap->num_philo);
-	if (ap->philos == NULL)
+	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num_philo);
+	if (info->philos == NULL)
 		return ;
-	ap->taken_both = (bool *)malloc(sizeof(bool) * ap->num_philo);
-	if (ap->taken_both == NULL)
+	info->taken_both = (bool *)malloc(sizeof(bool) * info->num_philo);
+	if (info->taken_both == NULL)
 		return ;
-	ap->taken_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * ap->num_philo);
-	if (ap->taken_lock == NULL)
+	info->taken_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_philo);
+	if (info->taken_lock == NULL)
 		return ;
-	ap->status = (int *)malloc(sizeof(int) * ap->num_philo);
-	if (ap->status == NULL)
+	info->status = (int *)malloc(sizeof(int) * info->num_philo);
+	if (info->status == NULL)
 		return ;
 }
 
-void	mutex_init(t_data *ap)
+void	mutex_init(t_data *info)
 {
 	int	i;
 
 	i = 0;
-	pthread_mutex_init(&ap->write, NULL);
-	pthread_mutex_init(&ap->death_lock, NULL);
-	pthread_mutex_init(&ap->time_lock, NULL);
-	pthread_mutex_init(&ap->meal_lock, NULL);
-	while (i < ap->num_philo)
+	pthread_mutex_init(&info->write, NULL);
+	pthread_mutex_init(&info->death_lock, NULL);
+	pthread_mutex_init(&info->time_lock, NULL);
+	pthread_mutex_init(&info->meal_lock, NULL);
+	while (i < info->num_philo)
 	{
-		ap->fork[i] = 0;
-		ap->taken_both[i] = false;
-		ap->status[i] = 0;
-		pthread_mutex_init(&ap->taken_lock[i], NULL);
-		pthread_mutex_init(&ap->status_lock[i], NULL);
-		pthread_mutex_init(&ap->fork_lock[i], NULL);
+		info->fork[i] = 0;
+		info->taken_both[i] = false;
+		info->status[i] = 0;
+		pthread_mutex_init(&info->taken_lock[i], NULL);
+		pthread_mutex_init(&info->status_lock[i], NULL);
+		pthread_mutex_init(&info->fork_lock[i], NULL);
 		i++;
 	}
 	i = 0;
-	while (i < ap->num_philo)
+	while (i < info->num_philo)
 	{
 		//Forks and their locks
-		ap->philos[i].l_lock = &ap->fork_lock[i];
-		ap->philos[i].r_lock = &ap->fork_lock[(i + 1) % ap->num_philo];
-		ap->philos[i].l_fork = &ap->fork[i];
-		ap->philos[i].r_fork = &ap->fork[(i + 1) % ap->num_philo];
+		info->philos[i].l_lock = &info->fork_lock[i];
+		info->philos[i].r_lock = &info->fork_lock[(i + 1) % info->num_philo];
+		info->philos[i].l_fork = &info->fork[i];
+		info->philos[i].r_fork = &info->fork[(i + 1) % info->num_philo];
 		// Taken array and it's lock
-		ap->philos[i].taken_ptr = &ap->taken_both[i];
-		ap->philos[i].taken_lock_ptr = &ap->taken_lock[i];
+		info->philos[i].taken_ptr = &info->taken_both[i];
+		info->philos[i].taken_lock_ptr = &info->taken_lock[i];
 		// Status array and it's lock
-		ap->philos[i].status_ptr = &ap->status[i];
-		ap->philos[i].status_lock_ptr = &ap->status_lock[i];
+		info->philos[i].status_ptr = &info->status[i];
+		info->philos[i].status_lock_ptr = &info->status_lock[i];
 		i++;
 	}
 }
 
-void	init_personal_data(t_data *ap)
+void	init_personal_data(t_data *info)
 {
 	int	i;
 
 	i = 0;
-	while (i < ap->num_philo)
+	while (i < info->num_philo)
 	{
-		ap->philos[i].id = i + 1;
-		ap->philos[i].info = ap;
-		ap->philos[i].meals_eaten = 0;
-		ap->philos[i].last_meal_time = 0;
+		info->philos[i].id = i + 1;
+		info->philos[i].info = info;
+		info->philos[i].meals_eaten = 0;
+		info->philos[i].last_meal_time = 0;
 		i++;
 	}
 }
