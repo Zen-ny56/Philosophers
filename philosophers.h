@@ -19,7 +19,7 @@ typedef struct s_data
 	size_t		death_time;
 	size_t			start;
 	int			*fork;
-	int			*taken_both;
+	bool		*taken_both;
 	int			*status;
 	int			num_philo;
 	int			max_meals;
@@ -44,7 +44,7 @@ typedef struct s_philo
 	int 		meals_eaten;
 	int				*l_fork;
 	int				*r_fork;
-	int				*taken_ptr;
+	bool			*taken_ptr;
 	int				*status_ptr;
 	pthread_mutex_t *status_lock_ptr;
 	pthread_mutex_t *taken_lock_ptr;

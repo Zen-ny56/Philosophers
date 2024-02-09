@@ -51,13 +51,13 @@ int	thinking(t_philo *philo)
 void	pick_left(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_lock);
-	*(philo->l_fork) = 1;
+	*(philo->l_fork) = philo->id;
 	print_event(philo, "has taken a fork");
 }
 
 void	pick_right(t_philo *philo)
 {
 	pthread_mutex_lock(philo->r_lock);
-	*(philo->r_fork) = 1;
+	*(philo->r_fork) = philo->id;
 	print_event(philo, "has taken a fork");
 }
