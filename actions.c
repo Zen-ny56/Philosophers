@@ -4,18 +4,11 @@ int	eat(t_philo *philo)
 {
 	if (check_status(philo))
 		return (1);
-	pthread_mutex_lock(philo->taken_lock_ptr);
-	if (philo->taken_ptr == false)
-	{
-		pthread_mutex_unlock(philo->taken_lock_ptr);
-		return (0);
-	}
-	pthread_mutex_unlock(philo->taken_lock_ptr);
 	print_event(philo, "is eating");
+	ft_usleep(philo->info->eatin_time, philo->info);
 	pthread_mutex_lock(&philo->info->time_lock);
 	philo->last_meal_time = get_time();
 	pthread_mutex_unlock(&philo->info->time_lock);
-	ft_usleep(philo->info->eatin_time, philo->info);
 	pthread_mutex_lock(&philo->info->meal_lock);
 	if (philo->info->max_meals != -1)
 		philo->meals_eaten++;
@@ -28,13 +21,6 @@ int	ft_sleep(t_philo *philo)
 {
 	if (check_status(philo))
 		return (1);
-	pthread_mutex_lock(philo->taken_lock_ptr);
-	if (philo->taken_ptr == false)
-	{
-		pthread_mutex_unlock(philo->taken_lock_ptr);
-		return (0);
-	}
-	pthread_mutex_unlock(philo->taken_lock_ptr);
 	print_event(philo, "is sleeping");
 	ft_usleep(philo->info->sleepin_time, philo->info);
 	return (0);

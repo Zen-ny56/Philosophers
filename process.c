@@ -24,7 +24,7 @@ void	thread_process(t_data *info)
 
 		time = get_time();
 		pthread_mutex_lock(&info->write);
-		printf("%zu %d philo has died\n", time - info->start, monitor_simulation(info));
+		printf("%zu %d died\n", time - info->start, monitor_simulation(info));
 		pthread_mutex_unlock(&info->write);
 	}
 	// pthread_create(&ap->monitor, NULL, &monitor, ap);
@@ -40,6 +40,7 @@ void	thread_process(t_data *info)
 
 void	*routine(void *arg)
 {
+	
 	t_philo	*philo;
 	philo = (t_philo *)arg;
 	while (!check_status(philo))
@@ -63,59 +64,28 @@ int		get_a_table(t_philo *philo)
 
 	if (check_status(philo))
 		return (1);
-	if (philo->id % 2 > 0)
+	if (philo->id % 2 == 1)
 	{
-		pick_right(philo);
-		pick_left(philo);
-		drop_one(philo);
-		usleep(20);
-		return (0);
+			pick_right(philo);
+			pick_left(philo);
+			return (0);
 	}
 	else
 	{
 		pick_left(philo);
-		pick_right(philo);
-		drop_one(philo);
-		usleep(20);
+		pick_right(philo);	
 		return (0);
 	}
 	return (0);
 }
 
-void	drop_one(t_philo *philo)
-{
-	pthread_mutex_lock(philo->taken_lock_ptr);
-	if (*(philo->r_fork) == 0 && *(philo->l_fork) == 1)
-	{
-		philo->taken_ptr = false;
-		drop_left(philo);
-		pthread_mutex_unlock(philo->taken_lock_ptr);
-		return ;
-	}
-	else if (*(philo->l_fork) == 0 && *(philo->r_fork) == 1)
-	{
-		philo->taken_ptr = false;
-		drop_right(philo);
-		pthread_mutex_unlock(philo->taken_lock_ptr);
-		return ;
-	}
-	else if (*(philo->l_fork) == 0 && *(philo->r_fork) == 0)
-	{
-		philo->taken_ptr = false;
-		pthread_mutex_unlock(philo->taken_lock_ptr);
-		return ;
-	}
-	else
-		*(philo->taken_ptr) = true;
-	pthread_mutex_unlock(philo->taken_lock_ptr);
-	return ;
-}
+
 
 int	drop_forks(t_philo *philo)
 {
 	if (check_status(philo))
 		return (1);
-	if (philo->id % 2 > 0)
+	if (philo->id % 2 == 1)
 	{
 		drop_left(philo);
 		drop_right(philo);
@@ -131,14 +101,12 @@ int	drop_forks(t_philo *philo)
 void	drop_left(t_philo *philo)
 {
 	*(philo->l_fork) = 0;
-	print_event(philo, "has dropped a fork");
 	pthread_mutex_unlock(philo->l_lock);
 }
 
 void   drop_right(t_philo *philo)
 {
 	*(philo->r_fork) = 0;
-	print_event(philo, "has dropped a fork");
 	pthread_mutex_unlock(philo->r_lock);
 }
 

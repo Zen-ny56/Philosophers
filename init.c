@@ -26,12 +26,6 @@ void	alloc(t_data *info)
 	info->philos = (t_philo *)malloc(sizeof(t_philo) * info->num_philo);
 	if (info->philos == NULL)
 		return ;
-	info->taken_both = (bool *)malloc(sizeof(bool) * info->num_philo);
-	if (info->taken_both == NULL)
-		return ;
-	info->taken_lock = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * info->num_philo);
-	if (info->taken_lock == NULL)
-		return ;
 	info->status = (int *)malloc(sizeof(int) * info->num_philo);
 	if (info->status == NULL)
 		return ;
@@ -52,10 +46,8 @@ void	mutex_init(t_data *info)
 	while (i < info->num_philo)
 	{
 		info->fork[i] = 0;
-		info->taken_both[i] = false;
 		info->status[i] = 0;
 		info->philos[i].info = info;
-		pthread_mutex_init(&info->taken_lock[i], NULL);
 		pthread_mutex_init(&info->status_lock[i], NULL);
 		pthread_mutex_init(&info->fork_lock[i], NULL);
 		i++;
@@ -67,8 +59,6 @@ void	mutex_init(t_data *info)
 		info->philos[i].r_lock = &info->fork_lock[(i + 1) % info->num_philo];
 		info->philos[i].l_fork = &info->fork[i];
 		info->philos[i].r_fork = &info->fork[(i + 1) % info->num_philo];
-		info->philos[i].taken_ptr = &info->taken_both[i];
-		info->philos[i].taken_lock_ptr = &info->taken_lock[i];
 		info->philos[i].status_ptr = &info->status[i];
 		info->philos[i].status_lock_ptr = &info->status_lock[i];
 		i++;
