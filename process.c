@@ -66,14 +66,22 @@ int		get_a_table(t_philo *philo)
 		return (1);
 	if (philo->id % 2 == 1)
 	{
-			pick_right(philo);
-			pick_left(philo);
-			return (0);
+		pthread_mutex_lock(philo->r_lock);
+		pthread_mutex_lock(philo->l_lock);
+		*(philo->l_fork) = philo->id;
+		*(philo->r_fork) = philo->id;
+		print_event(philo, "has taken a fork");
+		print_event(philo, "has taken a fork");
+		return (0);
 	}
 	else
 	{
-		pick_left(philo);
-		pick_right(philo);	
+		pthread_mutex_lock(philo->l_lock);
+		pthread_mutex_lock(philo->r_lock);
+		*(philo->r_fork) = philo->id;
+		*(philo->l_fork) = philo->id;
+		print_event(philo, "has taken a fork");
+		print_event(philo, "has taken a fork");
 		return (0);
 	}
 	return (0);
