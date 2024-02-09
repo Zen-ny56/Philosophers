@@ -11,10 +11,11 @@ int	eat(t_philo *philo)
 		return (0);
 	}
 	pthread_mutex_unlock(philo->taken_lock_ptr);
-	ft_usleep(philo->info->eatin_time, philo->info);
+	print_event(philo, "is eating");
 	pthread_mutex_lock(&philo->info->time_lock);
 	philo->last_meal_time = get_time();
 	pthread_mutex_unlock(&philo->info->time_lock);
+	ft_usleep(philo->info->eatin_time, philo->info);
 	pthread_mutex_lock(&philo->info->meal_lock);
 	if (philo->info->max_meals != -1)
 		philo->meals_eaten++;

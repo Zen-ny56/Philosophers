@@ -35,7 +35,6 @@ void	case_one(t_data *info)
 		info->philos[i].info = info;
 		i++;
 	}
-	info->philos[0].id = 1;
 	info->start = get_time();
 	pthread_create(&info->philos[0].thread, NULL, &one_train, &info->philos[0]);
 	pthread_join(info->philos[0].thread, NULL);

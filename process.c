@@ -60,26 +60,24 @@ void	*routine(void *arg)
 
 int		get_a_table(t_philo *philo)
 {
-	while (1)
+
+	if (check_status(philo))
+		return (1);
+	if (philo->id % 2 > 0)
 	{
-		if (check_status(philo))
-			return (1);
-		if (philo->id % 2 > 0)
-		{
-			pick_right(philo);
-			pick_left(philo);
-			drop_one(philo);
-			usleep(20);
-			break ;
-		}
-		else
-		{
-			pick_left(philo);
-			pick_right(philo);
-			drop_one(philo);
-			usleep(20);
-			break ;
-		}
+		pick_right(philo);
+		pick_left(philo);
+		drop_one(philo);
+		usleep(20);
+		return (0);
+	}
+	else
+	{
+		pick_left(philo);
+		pick_right(philo);
+		drop_one(philo);
+		usleep(20);
+		return (0);
 	}
 	return (0);
 }
@@ -107,7 +105,8 @@ void	drop_one(t_philo *philo)
 		pthread_mutex_unlock(philo->taken_lock_ptr);
 		return ;
 	}
-	*(philo->taken_ptr) = true;
+	else
+		*(philo->taken_ptr) = true;
 	pthread_mutex_unlock(philo->taken_lock_ptr);
 	return ;
 }
@@ -132,12 +131,14 @@ int	drop_forks(t_philo *philo)
 void	drop_left(t_philo *philo)
 {
 	*(philo->l_fork) = 0;
+	print_event(philo, "has dropped a fork");
 	pthread_mutex_unlock(philo->l_lock);
 }
 
 void   drop_right(t_philo *philo)
 {
 	*(philo->r_fork) = 0;
+	print_event(philo, "has dropped a fork");
 	pthread_mutex_unlock(philo->r_lock);
 }
 
