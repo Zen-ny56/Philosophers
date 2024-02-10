@@ -51,9 +51,10 @@ void	*one_train(void *arg)
 {
 	t_philo	*philo;
 	philo = (t_philo *)arg;
-	pick_left(philo);
+	pthread_mutex_lock(philo->l_lock);
+	*(philo->l_fork) = philo->id; 
 	ft_usleep(philo->info->death_time, philo->info);
-	drop_left(philo);
+	pthread_mutex_unlock(philo->l_lock);
 	print_event(philo, "has died");
 	return (NULL);
 }

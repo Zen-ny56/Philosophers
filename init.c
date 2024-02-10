@@ -12,7 +12,6 @@ void	init(char **argv, t_data *info)
 		info->max_meals = -1;
 	info->dead_id = 0;
 	info->full_philos = 0;
-	//info->terminate = 0;
 }
 
 void	alloc(t_data *info)
@@ -48,6 +47,7 @@ void	mutex_init(t_data *info)
 		info->fork[i] = 0;
 		info->status[i] = 0;
 		info->philos[i].info = info;
+		info->ate_last = 0;
 		pthread_mutex_init(&info->status_lock[i], NULL);
 		pthread_mutex_init(&info->fork_lock[i], NULL);
 		i++;

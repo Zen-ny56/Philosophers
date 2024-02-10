@@ -45,11 +45,9 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (!check_status(philo))
 	{
-		if (get_a_table(philo))
+		if (pick_forks(philo))
 			break ;
 		if (eat(philo))
-			break ;
-		if (drop_forks(philo))
 			break ;
 		if (ft_sleep(philo))
 			break ;
@@ -59,7 +57,7 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-int		get_a_table(t_philo *philo)
+int		pick_forks(t_philo *philo)
 {
 
 	if (check_status(philo))
@@ -68,51 +66,39 @@ int		get_a_table(t_philo *philo)
 	{
 		pthread_mutex_lock(philo->r_lock);
 		pthread_mutex_lock(philo->l_lock);
+		while (*(philo->r_fork) == philo->id || *(philo->l_fork) == philo->id)
+		{
+			pthread_mutex_unlock(philo->l_lock);
+			pthread_mutex_unlock(philo->r_lock);
+			usleep(500);
+			pthread_mutex_lock(philo->r_lock);
+			pthread_mutex_lock(philo->l_lock);
+		}
 		*(philo->l_fork) = philo->id;
 		*(philo->r_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
+		pthread_mutex_unlock(philo->l_lock);
+		pthread_mutex_unlock(philo->r_lock);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->l_lock);
 		pthread_mutex_lock(philo->r_lock);
-		*(philo->r_fork) = philo->id;
+		while (*(philo->r_fork) == philo->id || *(philo->l_fork) == philo->id)
+		{
+			pthread_mutex_unlock(philo->r_lock);
+			pthread_mutex_unlock(philo->l_lock);
+			usleep(500);
+			pthread_mutex_lock(philo->l_lock);
+			pthread_mutex_lock(philo->r_lock);
+		}
 		*(philo->l_fork) = philo->id;
+		*(philo->r_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
+		pthread_mutex_unlock(philo->r_lock);
+		pthread_mutex_unlock(philo->l_lock);
 	}
 	return (0);
 }
-
-
-
-int	drop_forks(t_philo *philo)
-{
-	if (check_status(philo))
-		return (1);
-	if (philo->id % 2 == 1)
-	{
-		drop_left(philo);
-		drop_right(philo);
-	}
-	else if (philo->id % 2 == 0)
-	{
-		drop_right(philo);
-		drop_left(philo);
-	}
-	return (0);
-}
-
-void	drop_left(t_philo *philo)
-{
-	*(philo->l_fork) = 0;
-	pthread_mutex_unlock(philo->l_lock);
-}
-
-void   drop_right(t_philo *philo)
-{
-	*(philo->r_fork) = 0;
-	pthread_mutex_unlock(philo->r_lock);
-}
-
