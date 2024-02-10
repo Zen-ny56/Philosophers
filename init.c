@@ -40,8 +40,7 @@ void	mutex_init(t_data *info)
 	i = 0;
 	pthread_mutex_init(&info->write, NULL);
 	pthread_mutex_init(&info->death_lock, NULL);
-	pthread_mutex_init(&info->time_lock, NULL);
-	pthread_mutex_init(&info->meal_lock, NULL);
+	pthread_mutex_init(&info->mt_lock, NULL);
 	while (i < info->num_philo)
 	{
 		info->fork[i] = 0;
