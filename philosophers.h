@@ -80,11 +80,9 @@ void   	drop_right(t_philo *philo);
 void   	drop_left(t_philo *philo);
 void 	pick_left(t_philo *philo);
 void 	pick_right(t_philo *philo);
-void	drop_one(t_philo *philo);
 int 	monitor_simulation(t_data *ap);
 void	change_status(t_philo *philo);
 int		check_status(t_philo *philo);
-void 	notify_death(t_data *info);
 void	*one_train(void *arg);
 void	case_one(t_data *info);
 #endif

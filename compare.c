@@ -9,6 +9,13 @@ int	check_status(t_philo *philo)
 		return (1);
 	}
 	pthread_mutex_unlock(philo->status_lock_ptr);
+	pthread_mutex_lock(&philo->info->death_lock);
+	if (philo->info->dead_id > 0)
+	{
+		pthread_mutex_unlock(&philo->info->death_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->info->death_lock);
 	return (0);
 }
 

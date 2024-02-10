@@ -72,7 +72,6 @@ int		get_a_table(t_philo *philo)
 		*(philo->r_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
-		return (0);
 	}
 	else
 	{
@@ -82,7 +81,6 @@ int		get_a_table(t_philo *philo)
 		*(philo->l_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
-		return (0);
 	}
 	return (0);
 }

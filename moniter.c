@@ -9,10 +9,7 @@ int	monitor_simulation(t_data *info)
 		while (i < info->num_philo)
 		{
 			if (autopsy(&info->philos[i]) > 0)
-			{
-				notify_death(info);
 				return (info->dead_id);
-			}
 			if (waiter(&info->philos[i]) > 0)
 				change_status(&info->philos[i]);
 			i++;
@@ -53,14 +50,4 @@ int		waiter(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->info->meal_lock);
 	return (0);
-}
-
-void notify_death(t_data *info)
-{
-	int i = 0;
-	while (i < info->num_philo)
-	{
-		change_status(&info->philos[i]);
-		i++;
-	}
 }
