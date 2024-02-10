@@ -18,6 +18,7 @@ int	monitor_simulation(t_data *info)
 	return (0);
 }
 
+
 void	change_status(t_philo *philo)
 {
 	pthread_mutex_lock(philo->status_lock_ptr);

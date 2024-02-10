@@ -20,7 +20,6 @@ typedef struct s_data
 	size_t		start;
 	int			*fork;
 	int			*status;
-	int			*ate_last;
 	int			num_philo;
 	int			max_meals;
 	int			full_philos;
@@ -28,8 +27,8 @@ typedef struct s_data
 	pthread_mutex_t *fork_lock;
 	pthread_mutex_t *status_lock;
 	pthread_mutex_t meal_lock;
-	pthread_mutex_t death_lock;
 	pthread_mutex_t time_lock;
+	pthread_mutex_t death_lock;
 	pthread_mutex_t write;
 }
 			t_data;

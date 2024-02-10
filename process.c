@@ -49,6 +49,8 @@ void	*routine(void *arg)
 			break ;
 		if (eat(philo))
 			break ;
+		if (drop_forks(philo))
+			break ;
 		if (ft_sleep(philo))
 			break ;
 		if (thinking(philo))
@@ -62,15 +64,16 @@ int		pick_forks(t_philo *philo)
 
 	if (check_status(philo))
 		return (1);
-	if (philo->id % 2 == 1)
+	if (philo->id % 2 != 0)
 	{
+		usleep(1500);
 		pthread_mutex_lock(philo->r_lock);
 		pthread_mutex_lock(philo->l_lock);
 		while (*(philo->r_fork) == philo->id || *(philo->l_fork) == philo->id)
 		{
 			pthread_mutex_unlock(philo->l_lock);
 			pthread_mutex_unlock(philo->r_lock);
-			usleep(500);
+			usleep(100);
 			pthread_mutex_lock(philo->r_lock);
 			pthread_mutex_lock(philo->l_lock);
 		}
@@ -78,25 +81,40 @@ int		pick_forks(t_philo *philo)
 		*(philo->r_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
-		pthread_mutex_unlock(philo->l_lock);
-		pthread_mutex_unlock(philo->r_lock);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->l_lock);
 		pthread_mutex_lock(philo->r_lock);
-		while (*(philo->r_fork) == philo->id || *(philo->l_fork) == philo->id)
+		while (*(philo->l_fork) == philo->id || *(philo->l_fork) == philo->id)
 		{
 			pthread_mutex_unlock(philo->r_lock);
 			pthread_mutex_unlock(philo->l_lock);
-			usleep(500);
+			usleep(100);
 			pthread_mutex_lock(philo->l_lock);
 			pthread_mutex_lock(philo->r_lock);
 		}
-		*(philo->l_fork) = philo->id;
 		*(philo->r_fork) = philo->id;
+		*(philo->l_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
+	}
+	return (0);
+}
+
+
+
+int	drop_forks(t_philo *philo)
+{
+	if (check_status(philo))
+		return (1);
+	if (philo->id % 2 != 0)
+	{
+		pthread_mutex_unlock(philo->l_lock);
+		pthread_mutex_unlock(philo->r_lock);
+	}
+	else
+	{
 		pthread_mutex_unlock(philo->r_lock);
 		pthread_mutex_unlock(philo->l_lock);
 	}

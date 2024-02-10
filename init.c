@@ -47,7 +47,6 @@ void	mutex_init(t_data *info)
 		info->fork[i] = 0;
 		info->status[i] = 0;
 		info->philos[i].info = info;
-		info->ate_last = 0;
 		pthread_mutex_init(&info->status_lock[i], NULL);
 		pthread_mutex_init(&info->fork_lock[i], NULL);
 		i++;
