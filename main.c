@@ -20,7 +20,13 @@ int main(int ac, char **av)
 		mutex_init(info);
 		thread_process(info);
 	}
-	printf("Struct enters mem \n");
+	int i = 0;
+	while (i < info->num_philo)
+	{
+		printf("philo has exited %p\n", &info->philos[i].id);
+		i++;
+	}
+	// printf("All  mem \n");
 	free_mem(info);
 	free(info);
 }
