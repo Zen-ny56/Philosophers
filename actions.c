@@ -10,6 +10,22 @@ int	eat(t_philo *philo)
 	philo->last_meal_time = get_time();
 	if (philo->info->max_meals != -1)
 		philo->meals_eaten++;
+	if (philo->info->max_meals == philo->meals_eaten)
+	{
+		philo->info->full_philos++;
+		if (philo->info->full_philos == philo->info->num_philo)
+		{
+			drop_forks(philo);
+			pthread_mutex_unlock(&philo->info->mt_lock);
+			pthread_mutex_lock(&philo->info->write);
+			printf("All Philosophers have eaten %d times\n", philo->info->max_meals);
+			pthread_mutex_unlock(&philo->info->write);
+			exit(0);
+		}
+		drop_forks(philo);
+		pthread_mutex_unlock(&philo->info->mt_lock);
+		return (1);
+	}
 	pthread_mutex_unlock(&philo->info->mt_lock);
 	return (0);
 

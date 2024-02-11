@@ -43,6 +43,7 @@ void	*routine(void *arg)
 	
 	t_philo	*philo;
 	philo = (t_philo *)arg;
+	
 	while (!check_status(philo))
 	{
 		if (pick_forks(philo))
@@ -56,6 +57,7 @@ void	*routine(void *arg)
 		if (thinking(philo))
 			break ;
 	}
+	print_event(philo, "is thinking");
 	return (NULL);
 }
 
