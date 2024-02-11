@@ -74,6 +74,7 @@ int		pick_forks(t_philo *philo)
 		*(philo->r_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
+		print_event(philo, "is eating");
 	}
 	else
 	{
@@ -91,6 +92,7 @@ int		pick_forks(t_philo *philo)
 		*(philo->l_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
+		print_event(philo, "is eating");
 	}
 	return (0);
 }
