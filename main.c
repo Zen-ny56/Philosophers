@@ -21,6 +21,8 @@ int main(int ac, char **av)
 		thread_process(info);
 	}
 	exit(0);
+	free_mem(info);
+	free(info);
 	// printf("All  mem \n");
 	//free_mem(info);
 	//free(info);

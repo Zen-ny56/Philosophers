@@ -73,6 +73,9 @@ int		pick_forks(t_philo *philo)
 		*(philo->r_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
+		pthread_mutex_lock(&philo->info->time_lock);
+		philo->last_meal_time = get_time();
+		pthread_mutex_unlock(&philo->info->time_lock);
 		print_event(philo, "is eating");
 	}
 	else
@@ -91,6 +94,9 @@ int		pick_forks(t_philo *philo)
 		*(philo->l_fork) = philo->id;
 		print_event(philo, "has taken a fork");
 		print_event(philo, "has taken a fork");
+		pthread_mutex_lock(&philo->info->time_lock);
+		philo->last_meal_time = get_time();
+		pthread_mutex_unlock(&philo->info->time_lock);
 		print_event(philo, "is eating");
 	}
 	return (0);

@@ -54,5 +54,4 @@ void	free_mem(t_data *info)
 		free(info->fork);
 		info->fork = NULL;
 	}
-	free(info);
 }
