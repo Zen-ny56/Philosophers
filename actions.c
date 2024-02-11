@@ -18,9 +18,9 @@ int	eat(t_philo *philo)
 			if (philo->info->full_philos == philo->info->num_philo)
 			{
 				ft_usleep(philo->info->eatin_time, philo->info);
-				drop_forks(philo);
+				//drop_forks(philo);
 				pthread_mutex_unlock(&philo->info->meal_lock);
-				//free_mem(philo->info);
+				free_mem(philo->info);
 				exit(0);
 			}
 			ft_usleep(philo->info->eatin_time, philo->info);

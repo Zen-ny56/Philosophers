@@ -27,7 +27,6 @@ void	free_mem(t_data *info)
 {
 	int i = 0;
 
-	printf("Num of philos %d\n", info->num_philo);
 	while (i < info->num_philo)
 	{
 		printf("%d\n",i);

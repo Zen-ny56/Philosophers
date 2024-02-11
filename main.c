@@ -20,13 +20,8 @@ int main(int ac, char **av)
 		mutex_init(info);
 		thread_process(info);
 	}
-	int i = 0;
-	while (i < info->num_philo)
-	{
-		printf("philo has exited %p\n", &info->philos[i].id);
-		i++;
-	}
+	exit(0);
 	// printf("All  mem \n");
-	free_mem(info);
-	free(info);
+	//free_mem(info);
+	//free(info);
 }

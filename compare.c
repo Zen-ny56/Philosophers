@@ -2,6 +2,7 @@
 
 int	check_status(t_philo *philo)
 {
+
 	pthread_mutex_lock(&philo->info->time_lock);
 	if (philo->info->dead_id > 0)
 	{
