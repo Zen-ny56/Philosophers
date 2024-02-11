@@ -23,15 +23,23 @@
 // 	exit(0);
 // }
 
-// void	join_threads(t_data *info)
-// {
-// 	int i = 0;
+void	free_mem(t_data *info)
+{
+	int i = 0;
 
-// 	while (i < info->num_philo)
-// 	{
-// 		pthread_join(info->philos[i].thread, NULL);
-// 		i++;
-// 	}
-// 	pthread_join(info->waiter, NULL);
-// 	pthread_join(info->monitor, NULL);
-// }
+	while (i < info->num_philo)
+	{
+		pthread_join(info->philos[i].thread, NULL);
+		i++;
+	}
+	while (i < info->num_philo)
+    {
+        pthread_mutex_destroy(&info->fork_lock[i]);
+        i++;
+    }
+    pthread_mutex_destroy(&info->write);
+    pthread_mutex_destroy(&info->mt_lock);
+    free(info->philos);
+    free(info->fork_lock);
+    free(info->fork);
+}

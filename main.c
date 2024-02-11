@@ -19,6 +19,7 @@ int main(int ac, char **av)
 		alloc(info);
 		mutex_init(info);
 		thread_process(info);
+		free_mem(info);
 	}
 	exit(0);
 }

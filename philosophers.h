@@ -73,4 +73,6 @@ void	change_status(t_philo *philo);
 int		check_status(t_philo *philo);
 void	*one_train(void *arg);
 void	case_one(t_data *info);
+void	free_mem(t_data *info);
+
 #endif
