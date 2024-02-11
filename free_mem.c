@@ -27,11 +27,14 @@ void	free_mem(t_data *info)
 {
 	int i = 0;
 
+	printf("Num of philos %d\n", info->num_philo);
 	while (i < info->num_philo)
 	{
+		printf("%d\n",i);
 		pthread_join(info->philos[i].thread, NULL);
 		i++;
 	}
+	printf("Threads are joined \n");
 	i = 0;
 	while (i < info->num_philo)
 	{
@@ -52,5 +55,4 @@ void	free_mem(t_data *info)
 		free(info->fork);
 		info->fork = NULL;
 	}
-	printf("Here\n");
 }

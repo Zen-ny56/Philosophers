@@ -19,8 +19,8 @@ int main(int ac, char **av)
 		alloc(info);
 		mutex_init(info);
 		thread_process(info);
-		free_mem(info);
 	}
+	printf("Struct enters mem \n");
 	free_mem(info);
-	exit(0);
+	free(info);
 }
