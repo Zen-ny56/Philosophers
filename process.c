@@ -27,6 +27,7 @@ void	thread_process(t_data *info)
 		printf("%zu %d died\n", time - info->start, monitor_simulation(info));
 		pthread_mutex_unlock(&info->write);
 	}
+	i = 0;
 	return ;
 }
 

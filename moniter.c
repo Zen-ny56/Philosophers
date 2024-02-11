@@ -24,6 +24,7 @@ int	autopsy(t_philo *philo)
 	// 	pthread_mutex_unlock(&philo->info->mt_lock);
 	// 	return (0);
 	// }
+	//pthread_mutex_lock(&philo->info->mt_lock);
 	if ((get_time() - philo->last_meal_time) > philo->info->death_time)
 	{
 		philo->info->dead_id = philo->id;
