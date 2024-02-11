@@ -27,6 +27,23 @@ void	thread_process(t_data *info)
 		printf("%zu %d died\n", time - info->start, monitor_simulation(info));
 		pthread_mutex_unlock(&info->write);
 	}
+	i = 0;
+	while (i < info->num_philo)
+	{
+		pthread_join(info->philos[i].thread, NULL);
+		i++;
+	}
+	i = 0;
+	while (i < info->num_philo)
+	{
+		pthread_mutex_destroy(&info->fork_lock[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&info->write);
+	pthread_mutex_destroy(&info->mt_lock);
+	free(info->fork);
+	free(info->fork_lock);
+	free(info->philos);
 	return ;
 }
 

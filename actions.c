@@ -7,6 +7,8 @@ int	eat(t_philo *philo)
 	// print_event(philo, "is eating");
 	pthread_mutex_lock(&philo->info->mt_lock);
 	philo->last_meal_time = get_time();
+	pthread_mutex_unlock(&philo->info->mt_lock);
+	pthread_mutex_lock(&philo->info->mt_lock);
 	if (philo->info->max_meals != -1)
 		philo->meals_eaten++;
 	if (philo->info->max_meals == philo->meals_eaten)
@@ -17,7 +19,7 @@ int	eat(t_philo *philo)
 			ft_usleep(philo->info->eatin_time, philo->info);
 			drop_forks(philo);
 			pthread_mutex_unlock(&philo->info->mt_lock);
-			exit(0);
+			free_mem(philo->info);
 		}
 		ft_usleep(philo->info->eatin_time, philo->info);
 		drop_forks(philo);

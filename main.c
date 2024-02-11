@@ -21,5 +21,6 @@ int main(int ac, char **av)
 		thread_process(info);
 		free_mem(info);
 	}
+	free_mem(info);
 	exit(0);
 }
