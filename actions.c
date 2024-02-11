@@ -5,29 +5,32 @@ int	eat(t_philo *philo)
 	if (check_status(philo))
 		return (1);
 	// print_event(philo, "is eating");
-	pthread_mutex_lock(&philo->info->mt_lock);
+	pthread_mutex_lock(&philo->info->time_lock);
 	philo->last_meal_time = get_time();
-	pthread_mutex_unlock(&philo->info->mt_lock);
-	pthread_mutex_lock(&philo->info->mt_lock);
+	pthread_mutex_unlock(&philo->info->time_lock);
+	pthread_mutex_lock(&philo->info->meal_lock);
 	if (philo->info->max_meals != -1)
-		philo->meals_eaten++;
-	if (philo->info->max_meals == philo->meals_eaten)
 	{
-		philo->info->full_philos++;
-		if (philo->info->full_philos == philo->info->num_philo)
+		philo->meals_eaten++;
+		if (philo->info->max_meals == philo->meals_eaten)
 		{
+			philo->info->full_philos++;
+			if (philo->info->full_philos == philo->info->num_philo)
+			{
+				ft_usleep(philo->info->eatin_time, philo->info);
+				drop_forks(philo);
+				pthread_mutex_unlock(&philo->info->meal_lock);
+				//free_mem(philo->info);
+				exit(0);
+			}
 			ft_usleep(philo->info->eatin_time, philo->info);
 			drop_forks(philo);
-			pthread_mutex_unlock(&philo->info->mt_lock);
-			free_mem(philo->info);
+			pthread_mutex_unlock(&philo->info->meal_lock);
+			return (1);
 		}
-		ft_usleep(philo->info->eatin_time, philo->info);
-		drop_forks(philo);
-		pthread_mutex_unlock(&philo->info->mt_lock);
-		return (1);
 	}
+	pthread_mutex_unlock(&philo->info->meal_lock);
 	ft_usleep(philo->info->eatin_time, philo->info);
-	pthread_mutex_unlock(&philo->info->mt_lock);
 	return (0);
 }
 

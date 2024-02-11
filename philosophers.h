@@ -24,7 +24,8 @@ typedef struct s_data
 	int			full_philos;
 	int			dead_id;
 	pthread_mutex_t *fork_lock;
-	pthread_mutex_t mt_lock;
+	pthread_mutex_t time_lock;
+	pthread_mutex_t meal_lock;
 	pthread_mutex_t write;
 }
 			t_data;

@@ -42,7 +42,8 @@ void	free_mem(t_data *info)
 		i++;
 	}
 	pthread_mutex_destroy(&info->write);
-	pthread_mutex_destroy(&info->mt_lock);   
+	pthread_mutex_destroy(&info->meal_lock);
+	pthread_mutex_destroy(&info->time_lock);   
 	if (info->philos != NULL) {
 		free(info->philos);
 		info->philos = NULL;
@@ -55,4 +56,5 @@ void	free_mem(t_data *info)
 		free(info->fork);
 		info->fork = NULL;
 	}
+	free(info);
 }
