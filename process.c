@@ -27,14 +27,6 @@ void	thread_process(t_data *info)
 		printf("%zu %d died\n", time - info->start, monitor_simulation(info));
 		pthread_mutex_unlock(&info->write);
 	}
-	// pthread_create(&ap->monitor, NULL, &monitor, ap);
-	// if (ap->max_meals > 0)
-	// 	pthread_create(&ap->waiter, NULL, &waiter, ap);
-	// if (terminate(ap) == 1)
-	// {
-	// 	join_threads(ap);
-	// 	free_memory(ap);
-	// }
 	return ;
 }
 
@@ -57,7 +49,6 @@ void	*routine(void *arg)
 		if (thinking(philo))
 			break ;
 	}
-	print_event(philo, "is thinking");
 	return (NULL);
 }
 

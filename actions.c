@@ -17,12 +17,10 @@ int	eat(t_philo *philo)
 		{
 			drop_forks(philo);
 			pthread_mutex_unlock(&philo->info->mt_lock);
-			pthread_mutex_lock(&philo->info->write);
-			printf("All Philosophers have eaten %d times\n", philo->info->max_meals);
-			pthread_mutex_unlock(&philo->info->write);
 			exit(0);
 		}
 		drop_forks(philo);
+		print_event(philo, "is thinking");
 		pthread_mutex_unlock(&philo->info->mt_lock);
 		return (1);
 	}
@@ -37,6 +35,7 @@ int	ft_sleep(t_philo *philo)
 		return (1);
 	print_event(philo, "is sleeping");
 	ft_usleep(philo->info->sleepin_time, philo->info);
+	print_event(philo, "is thinking");
 	return (0);
 }
 
