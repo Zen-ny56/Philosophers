@@ -33,7 +33,6 @@ void	free_mem(t_data *info)
 		pthread_join(info->philos[i].thread, NULL);
 		i++;
 	}
-	printf("Threads are joined \n");
 	i = 0;
 	while (i < info->num_philo)
 	{
