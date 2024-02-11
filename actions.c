@@ -14,18 +14,19 @@ int	eat(t_philo *philo)
 		philo->info->full_philos++;
 		if (philo->info->full_philos == philo->info->num_philo)
 		{
+			ft_usleep(philo->info->eatin_time, philo->info);
 			drop_forks(philo);
 			pthread_mutex_unlock(&philo->info->mt_lock);
 			exit(0);
 		}
+		ft_usleep(philo->info->eatin_time, philo->info);
 		drop_forks(philo);
 		pthread_mutex_unlock(&philo->info->mt_lock);
 		return (1);
 	}
-	pthread_mutex_unlock(&philo->info->mt_lock);
 	ft_usleep(philo->info->eatin_time, philo->info);
+	pthread_mutex_unlock(&philo->info->mt_lock);
 	return (0);
-
 }
 
 int	ft_sleep(t_philo *philo)
