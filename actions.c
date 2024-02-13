@@ -2,9 +2,10 @@
 
 int	eat(t_philo *philo)
 {
+	int b;
 	if (check_status(philo))
 	{
-		// drop_forks(philo);
+		b = drop_forks(philo);
 		return (1);
 	}
 	// print_event(philo, "is eating");

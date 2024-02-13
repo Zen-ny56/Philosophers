@@ -22,7 +22,6 @@ void	thread_process(t_data *info)
 	{
 		size_t			time;
 		pthread_mutex_lock(&info->write);
-
 		time = get_time();
 		printf("%zu %d died\n", time - info->start, monitor_simulation(info));
 		pthread_mutex_unlock(&info->write);
@@ -43,6 +42,7 @@ void	*routine(void *arg)
 	
 	while (!check_status(philo))
 	{
+		usleep(30);
 		if (pick_forks(philo))
 			break ;
 		if (eat(philo))
@@ -116,15 +116,15 @@ int	drop_forks(t_philo *philo)
 	{
 		pthread_mutex_unlock(philo->l_lock);
 		pthread_mutex_unlock(philo->r_lock);
-		if (check_status(philo))
-			return (1);
+		// if (check_status(philo))
+		// 	return (1);
 	}
 	else
 	{
 		pthread_mutex_unlock(philo->r_lock);
 		pthread_mutex_unlock(philo->l_lock);
-		if (check_status(philo))
-			return (1);
+		// if (check_status(philo))
+		// 	return (1);
 	}
 	return (0);
 }
