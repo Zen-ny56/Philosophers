@@ -9,7 +9,10 @@ int	monitor_simulation(t_data *info)
 		while (i < info->num_philo)
 		{
 			if (autopsy(&info->philos[i]) > 0)
+			{
+				//drop_forks(&info->philos[i]);
 				return (info->dead_id);
+			}
 			i++;
 		}
 	}

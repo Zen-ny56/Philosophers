@@ -3,22 +3,26 @@
 void	print_event(t_philo *philo, char *event)
 {
 	size_t			time;
-
-	time = get_time();
-
 	pthread_mutex_lock(&philo->info->write);
+	if (check_status(philo))
+	{
+		pthread_mutex_unlock(&philo->info->write);
+		return;
+	}
+	time = get_time();
 	printf("%zu %d %s\n", time - philo->info->start, philo->id, event);
 	pthread_mutex_unlock(&philo->info->write);
 }
 
-void	ft_usleep(size_t ms, t_data *philo)
+void	ft_usleep(size_t ms, t_philo *philo)
 {
-	(void)philo;
 	size_t	time;
 
 	time = get_time();
 	while (get_time() - time < ms)
 	{
+		if (check_status(philo))
+			return ;
 		usleep(500);
 	}
 }

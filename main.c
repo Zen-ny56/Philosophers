@@ -20,9 +20,9 @@ int main(int ac, char **av)
 		mutex_init(info);
 		thread_process(info);
 	}
-	exit(0);
 	free_mem(info);
 	free(info);
+	exit(0);
 	// printf("All  mem \n");
 	//free_mem(info);
 	//free(info);

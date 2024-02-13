@@ -29,7 +29,6 @@ void	free_mem(t_data *info)
 
 	while (i < info->num_philo)
 	{
-		printf("%d\n",i);
 		pthread_join(info->philos[i].thread, NULL);
 		i++;
 	}

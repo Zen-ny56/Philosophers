@@ -2,7 +2,6 @@
 
 int	check_status(t_philo *philo)
 {
-
 	pthread_mutex_lock(&philo->info->time_lock);
 	if (philo->info->dead_id > 0)
 	{
@@ -47,7 +46,7 @@ void	*one_train(void *arg)
 	philo = (t_philo *)arg;
 	pthread_mutex_lock(philo->l_lock);
 	*(philo->l_fork) = philo->id; 
-	ft_usleep(philo->info->death_time, philo->info);
+	ft_usleep(philo->info->death_time, philo);
 	pthread_mutex_unlock(philo->l_lock);
 	print_event(philo, "has died");
 	return (NULL);
