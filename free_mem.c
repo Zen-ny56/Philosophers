@@ -26,13 +26,6 @@
 void	free_mem(t_data *info)
 {
 	int i = 0;
-
-	while (i < info->num_philo)
-	{
-		pthread_join(info->philos[i].thread, NULL);
-		i++;
-	}
-	i = 0;
 	while (i < info->num_philo)
 	{
 		pthread_mutex_destroy(&info->fork_lock[i]);
