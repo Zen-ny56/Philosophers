@@ -2,7 +2,6 @@
 
 int all_full(t_data *info)
 {
-	int i = 0;
 	pthread_mutex_lock(&info->meal_lock);
 	if (info->full_philos == info->num_philo)
 	{
@@ -10,6 +9,7 @@ int all_full(t_data *info)
 		return (1);
 	}
 	pthread_mutex_unlock(&info->meal_lock);
+	return (0);
 }
 
 int	monitor_simulation(t_data *info)

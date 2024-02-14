@@ -2,11 +2,10 @@
 
 int	eat(t_philo *philo)
 {
-	int b;
 	if (check_status(philo))
 	{
-		b = drop_forks(philo);
-		return (1);
+		if (drop_forks(philo) >= 0)
+			return (1);
 	}
 	pthread_mutex_lock(&philo->info->meal_lock);
 	if (philo->info->max_meals != -1)
