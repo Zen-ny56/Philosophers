@@ -22,8 +22,5 @@ int main(int ac, char **av)
 	}
 	free_mem(info);
 	free(info);
-	exit(0);
-	// printf("All  mem \n");
-	//free_mem(info);
-	//free(info);
+	return (0);
 }
