@@ -21,6 +21,7 @@ void	thread_process(t_data *info)
 	if (monitor_simulation(info) > 0)
 	{
 		size_t			time;
+
 		pthread_mutex_lock(&info->write);
 		time = get_time();
 		printf("%zu %d died\n", time - info->start, monitor_simulation(info));
@@ -116,15 +117,19 @@ int	drop_forks(t_philo *philo)
 	{
 		pthread_mutex_unlock(philo->l_lock);
 		pthread_mutex_unlock(philo->r_lock);
-		// if (check_status(philo))
-		// 	return (1);
 	}
 	else
 	{
 		pthread_mutex_unlock(philo->r_lock);
 		pthread_mutex_unlock(philo->l_lock);
-		// if (check_status(philo))
-		// 	return (1);
 	}
+	pthread_mutex_lock(&philo->info->meal_lock);
+	if (philo->meals_eaten == philo->info->max_meals)
+	{
+		// philo->info->full_philos;
+		pthread_mutex_unlock(&philo->info->meal_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->info->meal_lock);
 	return (0);
 }
