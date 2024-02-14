@@ -126,7 +126,7 @@ int	drop_forks(t_philo *philo)
 	pthread_mutex_lock(&philo->info->meal_lock);
 	if (philo->meals_eaten == philo->info->max_meals)
 	{
-		// philo->info->full_philos;
+		philo->info->full_philos++;
 		pthread_mutex_unlock(&philo->info->meal_lock);
 		return (1);
 	}

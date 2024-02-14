@@ -75,5 +75,6 @@ int		check_status(t_philo *philo);
 void	*one_train(void *arg);
 void	case_one(t_data *info);
 void	free_mem(t_data *info);
+int		all_full(t_data *info);
 
 #endif

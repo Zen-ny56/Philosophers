@@ -1,17 +1,27 @@
 #include "philosophers.h"
 
+int all_full(t_data *info)
+{
+	int i = 0;
+	pthread_mutex_lock(&info->meal_lock);
+	if (info->full_philos == info->num_philo)
+	{
+		pthread_mutex_unlock(&info->meal_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&info->meal_lock);
+}
+
 int	monitor_simulation(t_data *info)
 {
 
 	while (1)
 	{
 		int i = 0;
+		if (all_full(info))
+			break ;
 		while (i < info->num_philo)
 		{
-			// if (full_meals(info))
-			// {
-			// 	return (1);
-			// }
 			if (autopsy(&info->philos[i]) > 0)
 				return (info->dead_id);
 			i++;
